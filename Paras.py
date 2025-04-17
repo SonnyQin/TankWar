@@ -1,0 +1,5 @@
+FPS=60
+WINDOWWIDTH = 1000
+WINDOWHEIGHT = 700
+
+CannonballRadius=5
