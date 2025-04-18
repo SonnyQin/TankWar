@@ -3,3 +3,5 @@ WINDOWWIDTH = 1000
 WINDOWHEIGHT = 700
 
 CannonballRadius=5
+
+TorretOffset=20

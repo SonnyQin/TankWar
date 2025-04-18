@@ -1,14 +1,31 @@
-from Tanks.tank_class import Tank
+from Actor.Tanks.tank_class import Tank
 from Actor.Camera.followCamera_class import FollowCamera
-#from Component.movementComponent_class import MovementComponent
-from Component.meshComponent_class import MeshComponent
+import math
+import pygame
 import glm
 
 class PlayerTank(Tank):
     def __init__(self, game):
         super().__init__(game)
-        #self.mMovementComp=MovementComponent(self)
-        self.mFollowCamera=FollowCamera(self.mGame, self, glm.vec3(0,0,100))
-        self.mTorretMeshComp=MeshComponent(self)
-        self.mChassisMeshComp=MeshComponent(self)
-    
+        self.mFollowCamera=FollowCamera(self, glm.vec3(100,0,300))
+        self.mFollowCamera.mActive=True
+        
+    def UpdateActor(self, deltatime):
+        super().UpdateActor(deltatime)
+        
+    def ActorInput(self, keyState):
+        super().ActorInput(keyState)
+        forwardSpeed=0
+        angularSpeed=0
+        
+        if(keyState[pygame.K_w]):
+            forwardSpeed+=100
+        if(keyState[pygame.K_s]):
+            forwardSpeed-=100
+        if(keyState[pygame.K_a]):
+            angularSpeed-=math.pi
+        if(keyState[pygame.K_d]):
+            angularSpeed+=math.pi
+            
+        self.mMovementComp.mForwardSpeed=forwardSpeed
+        self.mMovementComp.mAngularSpeed=angularSpeed

@@ -6,6 +6,7 @@ from Actor.Camera.freeCamera_class import FreeCamera
 from Actor.cubeActor_class import CubeActor
 from Actor.healthbar_class import  HealthBar
 from Actor.planeActor_class import PlaneActor
+from Actor.Tanks.playerTank_class import PlayerTank
 import Paras
 
 class Game:
@@ -13,12 +14,12 @@ class Game:
         self.mActors = []
         self.mIsRunning = True
         self.mRenderer=Renderer(self, Paras.WINDOWWIDTH, Paras.WINDOWHEIGHT)
+        self.mCameras=[]
         self.mCameraActor=RawCamera(self)
         #only for debugging
         self.mFreeCamera=FreeCamera(self)
-        self.mFreeCamera.mActive=False
         
-        self.mCube=None
+        self.mPlayerTank=None
         
         #self.mPlaneActor=PlaneActor(self)
         
@@ -36,7 +37,7 @@ class Game:
         self.LoadData()
         
     def LoadData(self):
-        self.mCube=CubeActor(self)
+        self.mPlayerTank=PlayerTank(self)
         PlaneActor(self)
 
     def Loop(self):
@@ -58,11 +59,24 @@ class Game:
             
         #only for debugging
         if keyState[pygame.K_1]:
-            self.mCameraActor.mActive=False
-            self.mFreeCamera.mActive=True
+            self.DisableAllCamera()
+            self.mCameras[0].mActive=True
         if keyState[pygame.K_2]:
-            self.mCameraActor.mActive=True
-            self.mFreeCamera.mActive=False
+            self.DisableAllCamera()
+            self.mCameras[1].mActive=True
+        if keyState[pygame.K_3]:
+            self.DisableAllCamera()
+            self.mCameras[2].mActive=True
+        if keyState[pygame.K_4]:
+            self.DisableAllCamera()
+            self.mCameras[3].mActive=True
+        if keyState[pygame.K_5]:
+            self.DisableAllCamera()
+            self.mCameras[4].mActive=True
+    
+    def DisableAllCamera(self):
+        for camera in self.mCameras:
+            camera.mActive=False
     
     def Update(self):
         deltatime = self.FPSClock.get_time() / 1000.0
