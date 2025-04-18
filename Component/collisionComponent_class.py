@@ -1,8 +1,8 @@
 from Component.component_class import Component
 
 class CollisionComponent(Component):
-    def __init__(self, owner, collider,updateOrder):
-        super().__init__(owner, updateOrder)
+    def __init__(self, owner, collider):
+        super().__init__(owner)
         self.mCollider=collider
 
     def Update(self, deltaTime):

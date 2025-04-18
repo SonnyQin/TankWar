@@ -29,3 +29,21 @@ class PlayerTank(Tank):
             
         self.mMovementComp.mForwardSpeed=forwardSpeed
         self.mMovementComp.mAngularSpeed=angularSpeed
+        
+        self.mTorret.mMovementComp.mForwardSpeed=forwardSpeed
+        self.mTorret.mMovementComp.mAngularSpeed=angularSpeed
+        
+        self.mChassis.mMovementComp.mForwardSpeed=forwardSpeed
+        self.mChassis.mMovementComp.mAngularSpeed=angularSpeed
+        
+        extraSpeed=0
+        if(keyState[pygame.K_j]):
+            extraSpeed-=math.pi
+        if(keyState[pygame.K_k]):
+            extraSpeed+=math.pi
+        self.mTorret.mMovementComp.mAngularSpeed+=extraSpeed
+        
+        
+        
+        if(keyState[pygame.K_SPACE]):
+            self.Fire()

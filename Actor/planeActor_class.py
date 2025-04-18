@@ -9,4 +9,4 @@ class PlaneActor(Actor):
         super().__init__(game)
         self.mMeshComp=MeshComponent(self)
         self.mMeshComp.mMesh=game.mRenderer.GetMesh('Assets/Ground.gpmesh')
-        self.mScale=30
+        self.mScale=50

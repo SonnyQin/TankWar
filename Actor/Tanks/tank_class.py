@@ -2,6 +2,7 @@ from Actor.actor_class import Actor
 from Component.movementComponent_class import MovementComponent
 from Actor.Tanks.torret_class import Torret
 from Actor.Tanks.chassis_class import Chassis
+from Projectile.cannonball_class import Cannonball
 import Paras
 import glm
 
@@ -15,9 +16,23 @@ class Tank(Actor):
         self.mTorret.mPosition=glm.vec3(self.mPosition.x, self.mPosition.y, self.mPosition.z+Paras.TorretOffset)
         self.mChassis.mPosition=glm.vec3(self.mPosition)
         self.mMovementComp=MovementComponent(self)
+        self.mCoolDownTime=Paras.CoolDownTime
+        
     def Update(self, deltatime):
         super().Update(deltatime)
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
+
+        self.mCoolDownTime+=deltatime
+        if self.mCoolDownTime>Paras.CoolDownTime:
+            self.mCoolDownTime=Paras.CoolDownTime
+        
         self.mTorret.mPosition=glm.vec3(self.mPosition.x, self.mPosition.y, self.mPosition.z+Paras.TorretOffset)
         self.mChassis.mPosition=glm.vec3(self.mPosition)
+        
+    def Fire(self):
+        if self.mCoolDownTime<Paras.CoolDownTime:
+            return
+        print('Fire')
+        self.mCoolDownTime=0
+        Cannonball(self)

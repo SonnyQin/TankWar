@@ -24,7 +24,7 @@ class MovementComponent(Component):
             angle = self.mAngularSpeed * deltatime  # 旋转增量
             
             inc = glm.angleAxis(-angle, glm.vec3(0, 0, 1))  # 使用 angleAxis 来生成增量旋转
-            self.mOwner.mRotation = glm.normalize(rot * inc)  # 应用增量旋转并归一化
+            self.mOwner.mRotation = rot * inc
 
         if not Math.NearZero(self.mForwardSpeed):
             pos = glm.vec3(self.mOwner.mPosition)

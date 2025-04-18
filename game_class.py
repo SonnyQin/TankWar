@@ -38,6 +38,7 @@ class Game:
         
     def LoadData(self):
         self.mPlayerTank=PlayerTank(self)
+        CubeActor(self)
         PlaneActor(self)
 
     def Loop(self):

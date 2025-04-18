@@ -14,3 +14,4 @@ class Torret(Actor):
         self.mScale=15
         self.mMeshComp=MeshComponent(self)
         self.mMeshComp.mMesh=game.mRenderer.GetMesh('Assets/Torret.gpmesh')
+        self.mMovementComp=MovementComponent(self)
