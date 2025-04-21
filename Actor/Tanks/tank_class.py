@@ -36,6 +36,7 @@ class Tank(Actor):
         if self.mCoolDownTime>Paras.CoolDownTime:
             self.mCoolDownTime=Paras.CoolDownTime
         
+        #Set two parts of the Tank to Tank's pos
         self.mTorret.mPosition=glm.vec3(self.mPosition.x, self.mPosition.y, self.mPosition.z+Paras.TorretOffset)
         self.mChassis.mPosition=glm.vec3(self.mPosition)
         

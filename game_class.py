@@ -53,7 +53,7 @@ class Game:
         #CubeActor(self)
         # EnemyTank(self)
         #PlaneActor(self)
-        mp=MapGenerator.generate_map(3,3,5)
+        mp=MapGenerator.generate_map(3,3,1)
         self.ConstructMap(mp)
         self.mGameMap=GameMap(mp)
 
