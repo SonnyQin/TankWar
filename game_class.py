@@ -6,7 +6,9 @@ from Actor.Camera.freeCamera_class import FreeCamera
 from Actor.cubeActor_class import CubeActor
 from Actor.healthbar_class import  HealthBar
 from Actor.planeActor_class import PlaneActor
+from Actor.Tanks.tank_class import Tank
 from Actor.Tanks.playerTank_class import PlayerTank
+from collisionManager_class import CollisionManager
 import Paras
 
 class Game:
@@ -16,6 +18,7 @@ class Game:
         self.mRenderer=Renderer(self, Paras.WINDOWWIDTH, Paras.WINDOWHEIGHT)
         self.mCameras=[]
         self.mCameraActor=RawCamera(self)
+        self.mCameraActor.mPosition.z=20
         #only for debugging
         self.mFreeCamera=FreeCamera(self)
         
@@ -25,6 +28,8 @@ class Game:
         
         self.mProjectiles=[]
         self.mEnemies=[]
+        
+        self.mCollisionManager=CollisionManager(self)
         
     def Initialize(self):
         self.mRenderer.Initialize()
@@ -38,7 +43,8 @@ class Game:
         
     def LoadData(self):
         self.mPlayerTank=PlayerTank(self)
-        CubeActor(self)
+        #CubeActor(self)
+        Tank(self)
         PlaneActor(self)
 
     def Loop(self):
@@ -84,8 +90,8 @@ class Game:
         for actor in self.mActors:
             if actor.mActive:
                 actor.Update(deltatime)
-            
-        # print(self.mCameraActor.mRotation)
+                
+        self.mCollisionManager.CheckCollision()
             
         self.FPSClock.tick(Paras.FPS)
         

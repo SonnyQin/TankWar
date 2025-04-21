@@ -3,6 +3,8 @@ from Component.movementComponent_class import MovementComponent
 from Actor.Tanks.torret_class import Torret
 from Actor.Tanks.chassis_class import Chassis
 from Projectile.cannonball_class import Cannonball
+from Component.collisionComponent_class import CollisionComponent
+import Math
 import Paras
 import glm
 
@@ -15,8 +17,11 @@ class Tank(Actor):
         self.mChassis=Chassis(self)
         self.mTorret.mPosition=glm.vec3(self.mPosition.x, self.mPosition.y, self.mPosition.z+Paras.TorretOffset)
         self.mChassis.mPosition=glm.vec3(self.mPosition)
+        self.mCollisionComp=CollisionComponent(self, Math.SphereCollider(self.mPosition, 50), self.onCollide)
         self.mMovementComp=MovementComponent(self)
         self.mCoolDownTime=Paras.CoolDownTime
+        
+        self.mHealth=100
         
     def Update(self, deltatime):
         super().Update(deltatime)
@@ -33,6 +38,10 @@ class Tank(Actor):
     def Fire(self):
         if self.mCoolDownTime<Paras.CoolDownTime:
             return
-        print('Fire')
         self.mCoolDownTime=0
         Cannonball(self)
+        
+    def onCollide(self, instigator):
+        if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
+            self.mHealth-=25
+            print('Collide')

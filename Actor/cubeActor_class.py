@@ -8,7 +8,7 @@ class CubeActor(Actor):
     def __init__(self, game):
         super().__init__(game)
         self.mMeshComponent=MeshComponent(self)
-        self.mMeshComponent.mMesh=game.mRenderer.GetMesh('Assets/Cannonball.gpmesh')
+        self.mMeshComponent.mMesh=game.mRenderer.GetMesh('Assets/Cube.gpmesh')
         self.mScale=100
         self.mPosition.x=200
         self.mPosition.y=10

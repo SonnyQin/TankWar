@@ -65,13 +65,13 @@ def CreatePerspectiveFOV(fovY, width, height, near, far):
 
 class SphereCollider:
     def __init__(self, center, radius):
-        self.center = center  # 球体的中心，使用glm.vec3表示
-        self.radius = radius  # 球体的半径
+        self.mCenter = center  # 球体的中心，使用glm.vec3表示
+        self.mRadius = radius  # 球体的半径
 
     # 检查当前球体是否与另一个球体发生碰撞
-    def check_collision(self, other):
+    def CheckCollision(self, other):
         # 计算两个球体中心之间的距离
-        distance = glm.length(self.center - other.center)
+        distance = glm.length(self.mCenter - other.mCenter)
         
         # 如果两个球体的中心距离小于它们半径之和，则发生碰撞
-        return distance < (self.radius + other.radius)
+        return distance < (self.mRadius + other.mRadius)
