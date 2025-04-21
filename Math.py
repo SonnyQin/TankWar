@@ -1,3 +1,4 @@
+import math
 import glm
 
 def transform_vector(v, q):
@@ -18,8 +19,8 @@ def simple_ortho(window_width, window_height):
     # 创建一个正交投影矩阵
     return glm.ortho(0.0, window_width, 0.0, window_height, -1.0, 1.0)
 
-def NearZero(num):
-    if glm.abs(num)< 0.001:
+def NearZero(num, rate=0.001):
+    if glm.abs(num)< rate:
         return True
     return False
 
@@ -75,3 +76,18 @@ class SphereCollider:
         
         # 如果两个球体的中心距离小于它们半径之和，则发生碰撞
         return distance < (self.mRadius + other.mRadius)
+    
+def AngleBetweenVectors(v1, v2):
+    # 计算点积
+    dot_product = glm.dot(v1, v2)
+    # 计算模长
+    length_v1 = glm.length(v1)
+    length_v2 = glm.length(v2)
+    
+    # 计算夹角（返回值在 -1 到 1 之间，所以用 acos 计算角度）
+    cos_angle = dot_product / (length_v1 * length_v2)
+    # 限制 cos_angle 在有效范围内，避免由于浮动误差导致值超过范围
+    cos_angle = glm.clamp(cos_angle, -1.0, 1.0)
+    angle = math.acos(cos_angle)  # 返回角度，单位为弧度
+    
+    return angle

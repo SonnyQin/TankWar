@@ -14,4 +14,5 @@ class CollisionManager:
         
         #Check Player and eney
         for enemy in enemies:
-            enemy.mCollisionComp.CheckCollision(self.mGame.mPlayerTank.mCollisionComp)
+            if self.mGame.mPlayerTank:
+                enemy.mCollisionComp.CheckCollision(self.mGame.mPlayerTank.mCollisionComp)

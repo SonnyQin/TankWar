@@ -63,4 +63,4 @@ class PlayerTank(Tank):
                 print('Game Over')
                 self.mActive=False
         if instigator.mType=='Enemy' or instigator.mType=='Wall':
-            self.mPosition-=self.GetForward()*10
+            self.mPosition-=self.GetForward()*5

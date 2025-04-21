@@ -53,6 +53,9 @@ class Renderer:
         
         self.CreateSpriteVerts()
         
+        # debug_window = pygame.display.set_mode((800, 600))
+        # pygame.display.set_caption("Pathfinding Debug")
+        
         return True
 
     def LoadShaders(self):

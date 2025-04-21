@@ -15,6 +15,8 @@ class Tank(Actor):
         self.mPosition=glm.vec3(0,0,15)
         self.mTorret=Torret(self)
         self.mChassis=Chassis(self)
+        game.RemoveActor(self.mTorret)
+        game.RemoveActor(self.mChassis)
         self.mTorret.mPosition=glm.vec3(self.mPosition.x, self.mPosition.y, self.mPosition.z+Paras.TorretOffset)
         self.mChassis.mPosition=glm.vec3(self.mPosition)
         self.mCollisionComp=CollisionComponent(self, Math.SphereCollider(self.mPosition, 50))
@@ -25,6 +27,8 @@ class Tank(Actor):
         
     def Update(self, deltatime):
         super().Update(deltatime)
+        self.mTorret.Update(deltatime)
+        self.mChassis.Update(deltatime)
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
 

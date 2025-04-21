@@ -15,4 +15,4 @@ class CollisionComponent(Component):
             if self.mOnCollide:
                 self.mOnCollide(collisionComp.mOwner)
             if collisionComp.mOnCollide:
-                collisionComp.mOnCollide(self)
+                collisionComp.mOnCollide(self.mOwner)

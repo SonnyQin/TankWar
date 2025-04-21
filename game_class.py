@@ -11,6 +11,7 @@ from Actor.Tanks.enemyTank_class import EnemyTank
 from Actor.Tanks.playerTank_class import PlayerTank
 from collisionManager_class import CollisionManager
 from mapGenerator_class import MapGenerator
+from gameMap_class import GameMap
 import glm
 import Paras
 
@@ -34,7 +35,10 @@ class Game:
         
         self.mCollisionManager=CollisionManager(self)
         
+        self.mGameMap=None
+        
     def Initialize(self):
+        
         self.mRenderer.Initialize()
         pygame.display.set_caption("TankWar")
         
@@ -45,12 +49,13 @@ class Game:
         self.LoadData()
         
     def LoadData(self):
-        self.mPlayerTank=PlayerTank(self)
+        #self.mPlayerTank=PlayerTank(self)
         #CubeActor(self)
         # EnemyTank(self)
         #PlaneActor(self)
         mp=MapGenerator.generate_map(3,3,5)
         self.ConstructMap(mp)
+        self.mGameMap=GameMap(mp)
 
     def Loop(self):
         while self.mIsRunning:
@@ -132,6 +137,10 @@ class Game:
                     oe=CubeActor(self)
                     oe.mPosition=glm.vec3(px, py, 50)
                     pass
+                if map[x][y]=='$':
+                    pt=PlayerTank(self)
+                    pt.mPosition=glm.vec3(px, py, 15)
+                    self.mPlayerTank=pt
                 
                 py+=1000
             px+=1000
