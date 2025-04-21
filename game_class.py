@@ -7,8 +7,11 @@ from Actor.cubeActor_class import CubeActor
 from Actor.healthbar_class import  HealthBar
 from Actor.planeActor_class import PlaneActor
 from Actor.Tanks.tank_class import Tank
+from Actor.Tanks.enemyTank_class import EnemyTank
 from Actor.Tanks.playerTank_class import PlayerTank
 from collisionManager_class import CollisionManager
+from mapGenerator_class import MapGenerator
+import glm
 import Paras
 
 class Game:
@@ -44,8 +47,10 @@ class Game:
     def LoadData(self):
         self.mPlayerTank=PlayerTank(self)
         #CubeActor(self)
-        Tank(self)
-        PlaneActor(self)
+        # EnemyTank(self)
+        #PlaneActor(self)
+        mp=MapGenerator.generate_map(3,3,5)
+        self.ConstructMap(mp)
 
     def Loop(self):
         while self.mIsRunning:
@@ -106,3 +111,28 @@ class Game:
             self.mActors.remove(actor)
         except:
             pass
+    def ConstructMap(self, map):
+        width=len(map)
+        height=len(map[0])
+        
+        px=0
+        py=0
+        for x in range(width):
+            for y in range(height):
+                #Construct Plane
+                pa=PlaneActor(self)
+                pa.mPosition=glm.vec3(px, py, 0)
+                
+                #Construct enemy
+                if map[x][y]=='@':
+                    ea=EnemyTank(self)
+                    ea.mPosition=glm.vec3(px, py, 15)
+                #Construct Obstacles
+                if map[x][y]=='#':
+                    oe=CubeActor(self)
+                    oe.mPosition=glm.vec3(px, py, 50)
+                    pass
+                
+                py+=1000
+            px+=1000
+            py=0

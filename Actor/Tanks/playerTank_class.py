@@ -13,6 +13,7 @@ class PlayerTank(Tank):
         self.mFollowCamera=FollowCamera(self, -100,75)
         self.mFollowCamera.mActive=True
         self.mCollisionComp.mOnCollide=self.onCollide
+        self.mType='Player'
         # self.mCube=CubeActor(game)
         # self.mCube.mScale=65
         
@@ -58,3 +59,8 @@ class PlayerTank(Tank):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
             self.mHealth-=25
             print('Collide')
+            if self.mHealth<=0:
+                print('Game Over')
+                self.mActive=False
+        if instigator.mType=='Enemy' or instigator.mType=='Wall':
+            self.mPosition-=self.GetForward()*10

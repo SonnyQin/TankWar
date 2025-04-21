@@ -17,7 +17,7 @@ class Tank(Actor):
         self.mChassis=Chassis(self)
         self.mTorret.mPosition=glm.vec3(self.mPosition.x, self.mPosition.y, self.mPosition.z+Paras.TorretOffset)
         self.mChassis.mPosition=glm.vec3(self.mPosition)
-        self.mCollisionComp=CollisionComponent(self, Math.SphereCollider(self.mPosition, 50), self.onCollide)
+        self.mCollisionComp=CollisionComponent(self, Math.SphereCollider(self.mPosition, 50))
         self.mMovementComp=MovementComponent(self)
         self.mCoolDownTime=Paras.CoolDownTime
         
@@ -40,8 +40,3 @@ class Tank(Actor):
             return
         self.mCoolDownTime=0
         Cannonball(self)
-        
-    def onCollide(self, instigator):
-        if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
-            self.mHealth-=25
-            print('Collide')
