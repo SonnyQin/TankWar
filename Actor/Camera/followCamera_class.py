@@ -9,7 +9,7 @@ class FollowCamera(CameraActor):
         self.mLength=length
         self.mHeight=height
         
-        self.mPosition = owner.mTorret.mPosition + owner.mTorret.GetForward()*self.mLength+glm.vec3(0,0,self.mHeight)
+        self.mPosition = owner.mTorret.mPosition - owner.mTorret.GetForward()*self.mLength+glm.vec3(0,0,self.mHeight)
 
     def UpdateActor(self, deltatime):
         self.mPosition = self.mOwner.mTorret.mPosition - self.mOwner.mTorret.GetForward()*self.mLength+glm.vec3(0,0,self.mHeight)

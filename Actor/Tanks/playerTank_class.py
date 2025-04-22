@@ -38,10 +38,9 @@ class PlayerTank(Tank):
         self.mMovementComp.mForwardSpeed=forwardSpeed
         self.mMovementComp.mAngularSpeed=angularSpeed
         
-        self.mTorret.mMovementComp.mForwardSpeed=forwardSpeed
+        #TODO
         self.mTorret.mMovementComp.mAngularSpeed=angularSpeed
         
-        self.mChassis.mMovementComp.mForwardSpeed=forwardSpeed
         self.mChassis.mMovementComp.mAngularSpeed=angularSpeed
         
         extraSpeed=0
