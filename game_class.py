@@ -53,7 +53,7 @@ class Game:
         #CubeActor(self)
         # EnemyTank(self)
         #PlaneActor(self)
-        mp=MapGenerator.generate_map(3,3,1)
+        mp=MapGenerator.generate_map(3,3,0)
         self.mGameMap=GameMap(mp)
         self.ConstructMap(mp)
 
@@ -62,6 +62,10 @@ class Game:
             self.ProcessInput()
             self.Update()
             self.Draw()
+            print(self.mPlayerTank.mTorret.mWorldTransform)
+            print('*************')
+            print(self.mPlayerTank.mChassis.mWorldTransform)
+            print('..................')
         
     def ProcessInput(self):
         keyState = pygame.key.get_pressed()

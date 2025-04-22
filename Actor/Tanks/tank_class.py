@@ -8,6 +8,9 @@ import Math
 import Paras
 import glm
 
+#Chassis and Torret's position is always Updated to Actor's position
+#TODO
+#Chassis rotation should be Actor's rotation
 
 class Tank(Actor):
     def __init__(self, game):
@@ -27,10 +30,11 @@ class Tank(Actor):
         
     def Update(self, deltatime):
         super().Update(deltatime)
-        self.mTorret.Update(deltatime)
-        self.mChassis.Update(deltatime)
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
+        
+        self.mTorret.Update(deltatime)
+        self.mChassis.Update(deltatime)
 
         self.mCoolDownTime+=deltatime
         if self.mCoolDownTime>Paras.CoolDownTime:
@@ -39,6 +43,7 @@ class Tank(Actor):
         #Set two parts of the Tank to Tank's pos
         self.mTorret.mPosition=glm.vec3(self.mPosition.x, self.mPosition.y, self.mPosition.z+Paras.TorretOffset)
         self.mChassis.mPosition=glm.vec3(self.mPosition)
+        self.mChassis.mRotation=glm.quat(self.mRotation)
         
     def Fire(self):
         if self.mCoolDownTime<Paras.CoolDownTime:

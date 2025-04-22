@@ -46,7 +46,7 @@ class NavigationComponent(Component):
             if not self.mOwner.mSteeringBehaviors.mTargetPos:
                 self.mOwner.mSteeringBehaviors.mTargetPos=currentNode
             else:
-                print(glm.length(self.mOwner.mPosition.xy - self.mTargetPos.xy))
+                #print(glm.length(self.mOwner.mPosition.xy - self.mTargetPos.xy))
                 #Check whether already get to that position, stop first, and then go to another position
                 if glm.length(self.mOwner.mPosition.xy - self.mTargetPos.xy) < 10:
                     self.mOwner.mMovementComp.mAngularSpeed=0

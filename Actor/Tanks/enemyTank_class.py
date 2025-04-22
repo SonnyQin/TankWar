@@ -42,18 +42,14 @@ class EnemyTank(Tank):
         angle=Math.AngleBetweenVectors(currentDirection, direction)
         if angle<0:
             self.mMovementComp.mAngularSpeed=-0.5*math.pi
-            self.mChassis.mAngularSpeed=-0.5*math.pi
         if angle>0:
             self.mMovementComp.mAngularSpeed=0.5*math.pi
-            self.mChassis.mMovementComp.mAngularSpeed=0.5*math.pi
     
     #TODO may be optimized
     def Steering(self, deltatime):
         #Reset MovementComponent
         self.mMovementComp.mAngularSpeed=0
-        self.mChassis.mMovementComp.mAngularSpeed=0
         self.mMovementComp.mForwardSpeed=0
-        self.mChassis.mMovementComp.mForwardSpeed=0
         
         totalForce = self.mSteeringBehaviors.Calculate()
         acceleration = totalForce / Paras.EnemyMass
@@ -67,14 +63,13 @@ class EnemyTank(Tank):
         #print(angleDifference)
 
         # 如果角度差异超过阈值，则执行转向
-        if not Math.NearZero(angleDifference, 0.01):
+        if not Math.NearZero(angleDifference, 0.07):
             self.TurnTo(expectDirection)
             # 如果需要转向，则直接返回，不进行位置更新
             return
             
         # 计算前进速度
         self.mMovementComp.mForwardSpeed = glm.length(acceleration)
-        self.mChassis.mMovementComp.mForwardSpeed = glm.length(acceleration)
     
     def TorretWander(self):
         pass
