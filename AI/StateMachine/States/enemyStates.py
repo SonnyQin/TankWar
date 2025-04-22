@@ -1,4 +1,6 @@
 from AI.StateMachine.States.state_class import State
+import glm
+import Math
 
 class EnemyGlobalState(State):
     def __init__(self):
@@ -23,16 +25,17 @@ class EnemyWanderState(State):
         super().__init__()
     def Enter(self, owner):
         super().Enter(owner)
-        #owner.mSteeringBehaviors.WanderOn()
+        #TODO must use pathfinder to get to the place
         owner.mSteeringBehaviors.SeekOn()
-        #owner.mSteeringBehaviors.PursuitOn()
+        owner.mSteeringBehaviors.mTargetPos=owner.GenerateWanderPos()
     def Execute(self, owner):
         super().Execute(owner)
+        #If already attend the wanderpos, generate a new one
+        if Math.NearZero(glm.length2(owner.mPosiiton, owner.mSteeringBehaviors.mTargetPos), 10):
+            owner.mSteeringBehaviors.mTargetPos=owner.GenerateWanderPos()
     def Exit(self, owner):
         super().Exit(owner)
-        #owner.mSteeringBehaviors.WanderOff()
         owner.mSteeringBehaviors.SeekOff()
-        #owner.mSteeringBehaviors.PursuitOff()
 
     @staticmethod
     def get_instance():

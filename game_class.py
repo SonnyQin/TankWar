@@ -120,8 +120,8 @@ class Game:
         width=len(map)
         height=len(map[0])
         
-        px=0
-        py=0
+        px=500
+        py=500
         for x in range(width):
             for y in range(height):
                 #Construct Plane
