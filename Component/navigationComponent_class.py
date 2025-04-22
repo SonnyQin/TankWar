@@ -1,6 +1,6 @@
 from Component.component_class import Component
 from gameMap_class import GameMap
-from AI.PathFinding.pathFinder_class import PathFinder
+from AI.PathFinding.pathFinder_class import PathFinder, PathProcedure
 import glm
 
 
@@ -9,13 +9,14 @@ import glm
 class NavigationComponent(Component):
     def __init__(self, owner, updateOrder=-1):
         super().__init__(owner, updateOrder)
-        self.mPathFinder=PathFinder(owner.mGame.mGameMap)
+        self.mPathFinder=PathFinder(owner.mGame.mGameMap.mMap)
         self.mPathProcedure=None
         self.mTargetPos=None
         self.mIsFindingPath=False
         self.mIsOnTarget=False
     
     def InitPath(self, targetPos):
+        print('Start calculate path')
         self.mIsFindingPath=True
         self.mIsOnTarget=False
         self.mTargetPos=targetPos
@@ -28,10 +29,14 @@ class NavigationComponent(Component):
         
         #If currently is finding the path, currently one step for each frame
         if self.mIsFindingPath:
+            print('Calculating path')
             r=self.mPathFinder.FindPathStep()
             if r:
+                print('Path calculated')
                 self.mIsFindingPath=False
-                self.mPathProcedure=PathFinder.IndexToPosition(self.mTargetPos)
+                self.mPathProcedure=PathProcedure(PathFinder.IndexToPosition(r,self.mTargetPos))
+                print(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
+                print(self.mPathProcedure.mPath)
         
         #If currently not finding the path and the path has already found
         #Just follow the path
@@ -41,12 +46,13 @@ class NavigationComponent(Component):
             if not self.mOwner.mSteeringBehaviors.mTargetPos:
                 self.mOwner.mSteeringBehaviors.mTargetPos=currentNode
             else:
+                print(glm.length(self.mOwner.mPosition.xy - self.mTargetPos.xy))
                 #Check whether already get to that position, stop first, and then go to another position
-                if glm.length(self.mPosition.xy - self.mTargetPos.xy) < 10:
-                    self.mMovementComp.mAngularSpeed=0
-                    self.mChassis.mMovementComp.mAngularSpeed=0
-                    self.mMovementComp.mForwardSpeed=0
-                    self.mChassis.mMovementComp.mForwardSpeed=0
+                if glm.length(self.mOwner.mPosition.xy - self.mTargetPos.xy) < 10:
+                    self.mOwner.mMovementComp.mAngularSpeed=0
+                    self.mOwner.mChassis.mMovementComp.mAngularSpeed=0
+                    self.mOwner.mMovementComp.mForwardSpeed=0
+                    self.mOwner.mChassis.mMovementComp.mForwardSpeed=0
                     #Check whether finish the path
                     if self.mPathProcedure.NextNode():
                         #Reset target to the next node
@@ -54,3 +60,4 @@ class NavigationComponent(Component):
                     else:
                         #Finished
                         self.mIsOnTarget=True
+                        print('On Target')

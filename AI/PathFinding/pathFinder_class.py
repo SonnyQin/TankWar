@@ -25,7 +25,7 @@ class PathFinder:
         neighbors = []
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             nx, ny = x + dx, y + dy
-            if 0 <= nx < len(self.map) and 0 <= ny < len(self.map[0]) and self.map[nx][ny] == 0:
+            if 0 <= nx < len(self.map) and 0 <= ny < len(self.map[0]) and (self.map[nx][ny] == 0 or self.map[nx][ny]=='.'):
                 neighbors.append((nx, ny))
         return neighbors
 
@@ -84,7 +84,7 @@ class PathFinder:
         result = []
         #result.append(glm.vec2(startPos.x, startPos.y))
         for node in path:
-            x, y = GameMap.GetMapLocation(node[0], node[1])
+            x, y = GameMap.GetWorldLocation(node[0], node[1])
             result.append((x, y))
         result.append(glm.vec2(endPos.x, endPos.y))
         return result

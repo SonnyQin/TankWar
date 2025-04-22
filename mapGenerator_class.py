@@ -22,6 +22,8 @@ class MapGenerator:
             px=random.randint(0, width-1)
             py=random.randint(0, height-1)
             game_map[px][py]='@'
+            
+        #Add Player
         px=random.randint(0, width-1)
         py=random.randint(0, height-1)
         game_map[px][py]='$'

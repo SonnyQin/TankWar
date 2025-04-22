@@ -20,6 +20,24 @@ class EnemyGlobalState(State):
     _Instance = None
 
 #default
+class EnemyDefaultState(State):
+    def __init__(self):
+        super().__init__()
+    def Enter(self, owner):
+        super().Enter(owner)
+    def Execute(self, owner):
+        super().Execute(owner)
+    def Exit(self, owner):
+        super().Exit(owner)
+
+    @staticmethod
+    def get_instance():
+        if EnemyDefaultState._Instance is None:
+            EnemyDefaultState._Instance = EnemyDefaultState()
+        return EnemyDefaultState._Instance
+    _Instance = None
+
+
 class EnemyWanderState(State):
     def __init__(self):
         super().__init__()
@@ -27,12 +45,17 @@ class EnemyWanderState(State):
         super().Enter(owner)
         #TODO must use pathfinder to get to the place
         owner.mSteeringBehaviors.SeekOn()
-        owner.mSteeringBehaviors.mTargetPos=owner.GenerateWanderPos()
+        wanderPos=owner.GenerateWanderPos()
+        owner.mNavigationComp.InitPath(wanderPos)
     def Execute(self, owner):
         super().Execute(owner)
+        
         #If already attend the wanderpos, generate a new one
-        if Math.NearZero(glm.length2(owner.mPosiiton, owner.mSteeringBehaviors.mTargetPos), 10):
-            owner.mSteeringBehaviors.mTargetPos=owner.GenerateWanderPos()
+        if owner.mNavigationComp.mIsOnTarget:
+            print('On Target')
+            wanderPos=owner.GenerateWanderPos()
+            owner.mNavigationComp.InitPath(wanderPos)
+            
     def Exit(self, owner):
         super().Exit(owner)
         owner.mSteeringBehaviors.SeekOff()

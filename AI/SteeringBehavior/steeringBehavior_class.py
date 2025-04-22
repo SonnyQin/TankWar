@@ -102,7 +102,8 @@ class SteeringBehaviors:
         force = glm.vec2(0, 0)
 
         if self.on(BehaviorTypes.seek):
-            force += self.Seek(self.mTargetPos)
+            if self.mTargetPos:
+                force += self.Seek(self.mTargetPos)
             if not self.AccumulateForce(self.mSteeringForce, force):
                 return self.mSteeringForce
 

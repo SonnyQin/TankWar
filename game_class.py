@@ -54,8 +54,8 @@ class Game:
         # EnemyTank(self)
         #PlaneActor(self)
         mp=MapGenerator.generate_map(3,3,1)
-        self.ConstructMap(mp)
         self.mGameMap=GameMap(mp)
+        self.ConstructMap(mp)
 
     def Loop(self):
         while self.mIsRunning:
@@ -130,8 +130,10 @@ class Game:
                 
                 #Construct enemy
                 if map[x][y]=='@':
+                    from AI.StateMachine.States.enemyStates import EnemyWanderState
                     ea=EnemyTank(self)
-                    ea.mPosition=glm.vec3(px, py, 15)
+                    ea.mPosition=glm.vec3(px+100, py+100, 15)
+                    ea.mStateMachine.ChangeState(EnemyWanderState.get_instance())
                 #Construct Obstacles
                 if map[x][y]=='#':
                     oe=CubeActor(self)

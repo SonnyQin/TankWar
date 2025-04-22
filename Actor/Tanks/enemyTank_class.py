@@ -18,20 +18,21 @@ class EnemyTank(Tank):
         game.mEnemies.append(self)
         self.mCollisionComp.mOnCollide=self.onCollide
         self.mType='Enemy'
-        self.mStateMachine=StateMachine(self)
-        self.mStateMachine.mGlobalState=EnemyGlobalState._Instance
-        self.mStateMachine.mCurrentState=EnemyWanderState._Instance
-        self.mStateMachine.mGlobalState.Enter(self)
-        self.mStateMachine.mCurrentState.Enter(self)
         
         self.mSteeringBehaviors=SteeringBehaviors(self)
         self.mSteeringBehaviors.mTargetPos=None
         
-        self.mNavigationCompo=NavigationComponent(self)
+        self.mNavigationComp=NavigationComponent(self)
+        
+        self.mStateMachine=StateMachine(self)
+        self.mStateMachine.mGlobalState=EnemyGlobalState.get_instance()
+        self.mStateMachine.mCurrentState=EnemyDefaultState.get_instance()
+        self.mStateMachine.mGlobalState.Enter(self)
+        self.mStateMachine.mCurrentState.Enter(self)
         
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
-        print(self.mPosition.xy)
+        #print(self.mPosition.xy)
         
         #Move the tank
         self.Steering(deltatime)
@@ -81,7 +82,7 @@ class EnemyTank(Tank):
     def GenerateWanderPos(self):
         rd=glm.vec2(random.random(), random.random())
         rd*=Paras.EnemyWanderRad
-        return self.mPosition+rd
+        return self.mPosition.xy+rd
     
     def onCollide(self, instigator):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
