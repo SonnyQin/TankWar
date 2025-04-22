@@ -52,7 +52,7 @@ class EnemyWanderState(State):
         
         #If already attend the wanderpos, generate a new one
         if owner.mNavigationComp.mIsOnTarget:
-            print('On Target')
+            print('Generate new WanderPos')
             wanderPos=owner.GenerateWanderPos()
             owner.mNavigationComp.InitPath(wanderPos)
             

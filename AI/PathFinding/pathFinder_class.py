@@ -102,7 +102,7 @@ class PathProcedure:
     
     def NextNode(self):
         self.mCurrentNodeIndex+=1
-        if self.mCurrentNodeIndex>len(self.mPath):
+        if self.mCurrentNodeIndex==len(self.mPath):
             return False
         return True
     

@@ -25,7 +25,8 @@ class SteeringBehaviors:
     def Seek(self, target_pos):
         # 转换 mOwner.mPosition 为 vec2 (只取 x 和 y)
         owner_pos_2d = glm.vec2(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
-        desired_velocity = glm.normalize(target_pos - owner_pos_2d) * Paras.EnemyMaxSpeed
+        targetpos=glm.vec2(target_pos)
+        desired_velocity = glm.normalize(targetpos - owner_pos_2d) * Paras.EnemyMaxSpeed
         return desired_velocity - self.mOwner.GetForward().xy*self.mOwner.mMovementComp.mForwardSpeed
 
     def Pursuit(self, evader):
@@ -99,23 +100,23 @@ class SteeringBehaviors:
         return True
 
     def SumForces(self):
+        self.mSteeringForce=glm.vec2(0,0)
         force = glm.vec2(0, 0)
 
-        if self.on(BehaviorTypes.seek):
-            if self.mTargetPos:
-                force += self.Seek(self.mTargetPos)
+        if self.on(BehaviorTypes.seek) and self.mTargetPos:
+            force += self.Seek(self.mTargetPos)
             if not self.AccumulateForce(self.mSteeringForce, force):
                 return self.mSteeringForce
 
-        if self.on(BehaviorTypes.pursuit) and self.mTarget:
-            force += self.Pursuit(self.mTarget)
-            if not self.AccumulateForce(self.mSteeringForce, force):
-                return self.mSteeringForce
+        # if self.on(BehaviorTypes.pursuit) and self.mTarget:
+        #     force += self.Pursuit(self.mTarget)
+        #     if not self.AccumulateForce(self.mSteeringForce, force):
+        #         return self.mSteeringForce
 
-        if self.on(BehaviorTypes.wander):
-            force += self.Wander()
-            if not self.AccumulateForce(self.mSteeringForce, force):
-                return self.mSteeringForce
+        # if self.on(BehaviorTypes.wander):
+        #     force += self.Wander()
+        #     if not self.AccumulateForce(self.mSteeringForce, force):
+        #         return self.mSteeringForce
 
         return self.mSteeringForce
 

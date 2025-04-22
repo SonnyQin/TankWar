@@ -58,6 +58,9 @@ class EnemyTank(Tank):
         
         totalForce = self.mSteeringBehaviors.Calculate()
         acceleration = totalForce / Paras.EnemyMass
+        
+        #print(totalForce)
+        
         expectDirection = glm.normalize(acceleration)
         
         # 获取当前角色的朝向（假设你有一个GetForward()方法返回当前的方向向量）
@@ -92,4 +95,4 @@ class EnemyTank(Tank):
                 print('Explode')
                 self.mActive=False
         if instigator.mType=='Player' or instigator.mType=='Wall':
-            self.mPosition-=0.01*self.GetForward()
+            self.mPosition-=5*self.GetForward()
