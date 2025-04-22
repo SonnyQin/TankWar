@@ -24,7 +24,6 @@ class Actor:
         pass
         
     def Update(self, deltatime:int):
-
         if self.mActive:
             self.ComputeWorldTransform()
             self.UpdateActor(deltatime)

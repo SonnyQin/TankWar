@@ -13,6 +13,3 @@ class Chassis(Actor):
         self.mScale=10
         self.mMeshComp=MeshComponent(self)
         self.mMeshComp.mMesh=game.mRenderer.GetMesh('Assets/Chassis.gpmesh')
-        # inc = glm.angleAxis(math.pi/2, glm.vec3(1, 0, 0))  # 使用 angleAxis 来生成增量旋转
-        # self.mRotation = glm.normalize(self.mRotation * inc)  # 应用增量旋转并归一化
-        self.mMovementComp=MovementComponent(self)

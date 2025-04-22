@@ -21,10 +21,10 @@ class Game:
         self.mIsRunning = True
         self.mRenderer=Renderer(self, Paras.WINDOWWIDTH, Paras.WINDOWHEIGHT)
         self.mCameras=[]
-        self.mCameraActor=RawCamera(self)
-        self.mCameraActor.mPosition.z=20
-        #only for debugging
-        self.mFreeCamera=FreeCamera(self)
+        # self.mCameraActor=RawCamera(self)
+        # self.mCameraActor.mPosition.z=20
+        # #only for debugging
+        # self.mFreeCamera=FreeCamera(self)
         
         self.mPlayerTank=None
         
@@ -53,7 +53,7 @@ class Game:
         #CubeActor(self)
         # EnemyTank(self)
         #PlaneActor(self)
-        mp=MapGenerator.generate_map(3,3,0)
+        mp=MapGenerator.generate_map(3,3,1)
         self.mGameMap=GameMap(mp)
         self.ConstructMap(mp)
 
@@ -74,22 +74,22 @@ class Game:
             if actor.mActive:
                 actor.ProcessInput(keyState)
             
-        #only for debugging
-        if keyState[pygame.K_1]:
-            self.DisableAllCamera()
-            self.mCameras[0].mActive=True
-        if keyState[pygame.K_2]:
-            self.DisableAllCamera()
-            self.mCameras[1].mActive=True
-        if keyState[pygame.K_3]:
-            self.DisableAllCamera()
-            self.mCameras[2].mActive=True
-        if keyState[pygame.K_4]:
-            self.DisableAllCamera()
-            self.mCameras[3].mActive=True
-        if keyState[pygame.K_5]:
-            self.DisableAllCamera()
-            self.mCameras[4].mActive=True
+        # #only for debugging
+        # if keyState[pygame.K_1]:
+        #     self.DisableAllCamera()
+        #     self.mCameras[0].mActive=True
+        # if keyState[pygame.K_2]:
+        #     self.DisableAllCamera()
+        #     self.mCameras[1].mActive=True
+        # if keyState[pygame.K_3]:
+        #     self.DisableAllCamera()
+        #     self.mCameras[2].mActive=True
+        # if keyState[pygame.K_4]:
+        #     self.DisableAllCamera()
+        #     self.mCameras[3].mActive=True
+        # if keyState[pygame.K_5]:
+        #     self.DisableAllCamera()
+        #     self.mCameras[4].mActive=True
     
     def DisableAllCamera(self):
         for camera in self.mCameras:

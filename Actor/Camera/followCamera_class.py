@@ -1,17 +1,17 @@
-from Actor.Camera.cameraActor_class import CameraActor
 import math
 import glm
 
-class FollowCamera(CameraActor):
+class FollowCamera:
     def __init__(self, owner, length, height):
-        super().__init__(owner.mGame)
         self.mOwner = owner
         self.mLength=length
         self.mHeight=height
         
+        self.mOwner.mGame.mCameras.append(self)
+        
         self.mPosition = owner.mTorret.mPosition - owner.mTorret.GetForward()*self.mLength+glm.vec3(0,0,self.mHeight)
 
-    def UpdateActor(self, deltatime):
+    def Update(self):
         self.mPosition = self.mOwner.mTorret.mPosition - self.mOwner.mTorret.GetForward()*self.mLength+glm.vec3(0,0,self.mHeight)
         
         # 每帧更新视图矩阵
@@ -19,7 +19,7 @@ class FollowCamera(CameraActor):
 
     def SetView(self):
         # 获取相机位置
-        cameraPos = glm.vec3(self.mPosition) 
+        cameraPos = glm.vec3(self.mPosition)
         
         # 计算相机到owner的方向向量
         direction = glm.normalize(self.mOwner.mTorret.mPosition - self.mPosition)
@@ -33,11 +33,8 @@ class FollowCamera(CameraActor):
         # 获取初始的上向量（默认的z轴）
         up = glm.vec3(0, 0, 1)
         
-        # # 旋转up向量使其随着相机旋转
-        # up = self.mRotation * up
-        
         # 计算相机的视图矩阵，确保相机朝向目标，并且up向量随旋转变化
         self.mView = glm.lookAt(cameraPos, target, up)
         
         # 更新渲染器的视图矩阵
-        self.mGame.mRenderer.mView = self.mView
+        self.mOwner.mGame.mRenderer.mView = self.mView

@@ -43,7 +43,7 @@ class EnemyWanderState(State):
         super().__init__()
     def Enter(self, owner):
         super().Enter(owner)
-        #TODO must use pathfinder to get to the place
+        # TODO must use pathfinder to get to the place
         owner.mSteeringBehaviors.SeekOn()
         wanderPos=owner.GenerateWanderPos()
         owner.mNavigationComp.InitPath(wanderPos)

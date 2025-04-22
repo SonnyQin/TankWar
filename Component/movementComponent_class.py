@@ -5,7 +5,7 @@ import Paras
 
 
 class MovementComponent(Component):
-    def __init__(self, owner, updateOrder=0):
+    def __init__(self, owner, updateOrder=100):
         super().__init__(owner, updateOrder=0)
         self.mForwardSpeed = 0
         self.mAngularSpeed = 0

@@ -19,7 +19,6 @@ class PlayerTank(Tank):
         
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
-        #self.mCube.mPosition=glm.vec3(self.mPosition)
         
     def ActorInput(self, keyState):
         super().ActorInput(keyState)
@@ -27,9 +26,9 @@ class PlayerTank(Tank):
         angularSpeed=0
         
         if(keyState[pygame.K_w]):
-            forwardSpeed+=300
+            forwardSpeed+=100
         if(keyState[pygame.K_s]):
-            forwardSpeed-=300
+            forwardSpeed-=100
         if(keyState[pygame.K_a]):
             angularSpeed-=0.5*math.pi
         if(keyState[pygame.K_d]):
@@ -41,16 +40,12 @@ class PlayerTank(Tank):
         #TODO
         self.mTorret.mMovementComp.mAngularSpeed=angularSpeed
         
-        self.mChassis.mMovementComp.mAngularSpeed=angularSpeed
-        
         extraSpeed=0
         if(keyState[pygame.K_j]):
             extraSpeed-=math.pi
         if(keyState[pygame.K_k]):
             extraSpeed+=math.pi
         self.mTorret.mMovementComp.mAngularSpeed+=extraSpeed
-        
-        
         
         if(keyState[pygame.K_SPACE]):
             self.Fire()
@@ -61,4 +56,4 @@ class PlayerTank(Tank):
                 print('Game Over')
                 self.mActive=False
         if instigator.mType=='Enemy' or instigator.mType=='Wall':
-            self.mPosition-=self.GetForward()*5
+            self.mPosition-=self.GetForward()*0.01

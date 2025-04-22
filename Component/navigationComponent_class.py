@@ -35,8 +35,8 @@ class NavigationComponent(Component):
                 print('Path calculated')
                 self.mIsFindingPath=False
                 self.mPathProcedure=PathProcedure(PathFinder.IndexToPosition(r,self.mTargetPos))
-                print(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
-                print(self.mPathProcedure.mPath)
+                #print(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
+                print(self.mPathProcedure.mPath[0])
         
         #If currently not finding the path and the path has already found
         #Just follow the path
@@ -46,17 +46,17 @@ class NavigationComponent(Component):
             if not self.mOwner.mSteeringBehaviors.mTargetPos:
                 self.mOwner.mSteeringBehaviors.mTargetPos=currentNode
             else:
-                #print(glm.length(self.mOwner.mPosition.xy - self.mTargetPos.xy))
+                #print(glm.length(self.mOwner.mPosition.xy - currentNode))
                 #Check whether already get to that position, stop first, and then go to another position
-                if glm.length(self.mOwner.mPosition.xy - self.mTargetPos.xy) < 10:
+                if glm.length(self.mOwner.mPosition.xy - currentNode) < 10:
                     self.mOwner.mMovementComp.mAngularSpeed=0
-                    self.mOwner.mChassis.mMovementComp.mAngularSpeed=0
                     self.mOwner.mMovementComp.mForwardSpeed=0
-                    self.mOwner.mChassis.mMovementComp.mForwardSpeed=0
+                    print('Attend A Node')
                     #Check whether finish the path
                     if self.mPathProcedure.NextNode():
                         #Reset target to the next node
-                        self.mOwner.mSteeringBehaviors.mTargetPos=currentNode
+                        self.mOwner.mSteeringBehaviors.mTargetPos=self.mPathProcedure.GetCurrentNode()
+                        print(' ')
                     else:
                         #Finished
                         self.mIsOnTarget=True

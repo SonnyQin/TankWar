@@ -42,6 +42,8 @@ class Renderer:
 
         # Set up the OpenGL context attributes
         pygame.display.set_mode((self.mScreenWidth, self.mScreenHeight), pygame.DOUBLEBUF | pygame.OPENGL)
+        
+        pygame.display.gl_set_attribute(pygame.GL_SWAP_CONTROL, 1)  # 启用 V-Sync
 
         # Set OpenGL viewport size
         glViewport(0, 0, self.mScreenWidth, self.mScreenHeight)
@@ -139,6 +141,12 @@ class Renderer:
         glEnable(GL_DEPTH_TEST)
         glDisable(GL_BLEND)
         
+        self.mGame.mPlayerTank.mTorret.ComputeWorldTransform()
+        self.mGame.mPlayerTank.mChassis.ComputeWorldTransform()
+        
+        for camera in self.mGame.mCameras:
+            camera.Update()
+        
         for mc in self.mMeshComponents:
             if mc.mOwner.mActive:
                 mc.mMesh.mShader.SetActive()
@@ -164,3 +172,4 @@ class Renderer:
             #print(glGetError())
         
         pygame.display.flip()
+        glFlush()
