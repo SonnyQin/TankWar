@@ -27,9 +27,9 @@ class PlayerTank(Tank):
         angularSpeed=0
         
         if(keyState[pygame.K_w]):
-            forwardSpeed+=100
+            forwardSpeed+=300
         if(keyState[pygame.K_s]):
-            forwardSpeed-=100
+            forwardSpeed-=300
         if(keyState[pygame.K_a]):
             angularSpeed-=0.5*math.pi
         if(keyState[pygame.K_d]):

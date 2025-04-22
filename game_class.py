@@ -144,4 +144,4 @@ class Game:
                 
                 py+=1000
             px+=1000
-            py=0
+            py=500

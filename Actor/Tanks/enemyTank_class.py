@@ -19,6 +19,10 @@ class EnemyTank(Tank):
         self.mCollisionComp.mOnCollide=self.onCollide
         self.mType='Enemy'
         self.mStateMachine=StateMachine(self)
+        self.mStateMachine.mGlobalState=EnemyGlobalState._Instance
+        self.mStateMachine.mCurrentState=EnemyWanderState._Instance
+        self.mStateMachine.mGlobalState.Enter(self)
+        self.mStateMachine.mCurrentState.Enter(self)
         
         self.mSteeringBehaviors=SteeringBehaviors(self)
         self.mSteeringBehaviors.mTargetPos=None
