@@ -64,20 +64,41 @@ def CreatePerspectiveFOV(fovY, width, height, near, far):
     ]
     return glm.mat4(temp)
 
-class SphereCollider:
+# 基类 Collider
+class Collider:
+    def __init__(self):
+        self.mType = None  # 每个子类会设置自己的类型
+
+    def CheckCollision(self, other):
+        raise NotImplementedError("This method should be overridden in a subclass")
+
+    def CheckCollisionWithRay(self, ray_origin, ray_dir, ray_length):
+        raise NotImplementedError("This method should be overridden in a subclass")
+
+# SphereCollider 类继承自 Collider
+class SphereCollider(Collider):
     def __init__(self, center, radius):
+        super().__init__()
+        self.mType = 'Sphere'
         self.mCenter = center  # 球体的中心，使用glm.vec3表示
         self.mRadius = radius  # 球体的半径
-
-    # 检查当前球体是否与另一个球体发生碰撞
+        
     def CheckCollision(self, other):
+        if other.mType == 'Sphere':
+            return self.CheckCollisionWithSphere(other)
+        elif other.mType == 'Box':
+            return self.CheckCollisionWithBox(other)
+        
+    def CheckCollisionWithSphere(self, other):
         # 计算两个球体中心之间的距离
         distance = glm.length(self.mCenter - other.mCenter)
-        
         # 如果两个球体的中心距离小于它们半径之和，则发生碰撞
         return distance < (self.mRadius + other.mRadius)
     
-    # 检查球体与线段的碰撞
+    def CheckCollisionWithBox(self, other):
+        # 盒子碰撞检测逻辑，可以在这里添加
+        pass
+    
     def CheckCollisionWithRay(self, ray_origin, ray_dir, ray_length):
         # 计算从线段起点到球体中心的向量
         oc = ray_origin - self.mCenter
@@ -102,13 +123,21 @@ class SphereCollider:
 
         return False  # 没有交点
 
-class BoxCollider:
+# BoxCollider 类继承自 Collider
+class BoxCollider(Collider):
     def __init__(self, center, half_extents):
+        super().__init__()
+        self.mType = 'Box'
         self.mCenter = center  # 盒子的中心，使用 glm.vec3 表示
         self.mHalfExtents = half_extents  # 盒子的半宽、半高和半深度，使用 glm.vec3 表示
-
-    # 检查当前盒子是否与另一个盒子发生碰撞
+        
     def CheckCollision(self, other):
+        if other.mType == 'Sphere':
+            return self.CheckCollisionWithSphere(other)
+        elif other.mType == 'Box':
+            return self.CheckCollisionWithBox(other)
+
+    def CheckCollisionWithBox(self, other):
         # 检查盒子是否重叠的AABB碰撞检测
         x_overlap = abs(self.mCenter.x - other.mCenter.x) <= (self.mHalfExtents.x + other.mHalfExtents.x)
         y_overlap = abs(self.mCenter.y - other.mCenter.y) <= (self.mHalfExtents.y + other.mHalfExtents.y)
@@ -116,7 +145,6 @@ class BoxCollider:
         
         return x_overlap and y_overlap and z_overlap
 
-    # 检查当前盒子是否与球体发生碰撞
     def CheckCollisionWithSphere(self, sphere):
         # 找出盒子和球体之间最近的点
         closest_point = glm.clamp(sphere.mCenter, 
@@ -129,7 +157,6 @@ class BoxCollider:
         # 如果距离小于球体的半径，则发生碰撞
         return distance < sphere.mRadius
     
-    # 检查盒子与线段的碰撞
     def CheckCollisionWithRay(self, ray_origin, ray_dir, ray_length):
         tmin = -float('inf')
         tmax = float('inf')

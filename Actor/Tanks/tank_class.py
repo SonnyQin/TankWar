@@ -47,7 +47,7 @@ class Tank(Actor):
         
         #Call enemy sense
         for enemy in self.mGame.mEnemies:
-            enemy.mSenseComp.CallVisual(self.mPosition)
+            enemy.mSenseComp.CallVisual(self)
         
     def Fire(self):
         if self.mCoolDownTime<Paras.CoolDownTime:
@@ -56,4 +56,4 @@ class Tank(Actor):
         Cannonball(self)
         #Call enemy sense
         for enemy in self.mGame.mEnemies:
-            enemy.mSenseComp.CallAural(self.mPosition)
+            enemy.mSenseComp.CallAural(self)

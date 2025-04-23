@@ -11,9 +11,14 @@ class Block(Actor):
         super().__init__(game)
         self.mMeshComponent=MeshComponent(self)
         self.mMeshComponent.mMesh=game.mRenderer.GetMesh('Assets/Cube.gpmesh')
-        self.mCollisionComp=CollisionComponent(self, Math.BoxCollider(self.mPosition, glm.vec3(500,500,500)))
+        self.mCollisionComp=CollisionComponent(self, Math.BoxCollider(self.mPosition, glm.vec3(500,500,500)), self.onCollide)
         self.mScale=1000
         self.mGame.mObstacles.append(self)
         self.mType='Obstacle'
     def ActorInput(self, keyState):
         super().ActorInput(keyState)
+    
+    def onCollide(self, instigator):
+        # if instigator.mType=='Cannonball':
+        #     print('I am being hit')
+        pass

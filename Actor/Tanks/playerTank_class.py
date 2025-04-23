@@ -55,7 +55,7 @@ class PlayerTank(Tank):
             if self.mHealth<=0:
                 print('Game Over')
                 self.mActive=False
-        if instigator.mType=='Enemy' or instigator.mType=='Wall':
+        if instigator.mType=='Enemy' or instigator.mType=='Obstacle':
             OtoS=glm.normalize(instigator.mPosition-self.mPosition)
             OtoS.z=0
             self.mPosition-=2*OtoS

@@ -122,7 +122,7 @@ class EnemyTank(Tank):
                 print('Explode')
                 self.mActive=False
                 
-        if instigator.mType=='Player' or instigator.mType=='Wall':
+        if instigator.mType=='Player' or instigator.mType=='Obstacle':
             OtoS=glm.normalize(instigator.mPosition-self.mPosition)
             OtoS.z=0
             self.mPosition-=2*OtoS

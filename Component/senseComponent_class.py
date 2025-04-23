@@ -21,9 +21,10 @@ class SenseComponent(Component):
         super().Update(deltatime)
         
     #Call back function for action that may cause change in sense
-    def CallVisual(self,pos):
+    def CallVisual(self,player):
         if self.mIsSensed:
             return
+        pos=player.mPosition
         EyeToTarget=pos-self.mOwner.mPosition
         if glm.length(EyeToTarget) > Paras.EnemySight:
             return
@@ -31,12 +32,21 @@ class SenseComponent(Component):
         #TODO have an error, but I am too lazy
         TorretForward=-self.mOwner.mTorret.GetForward()
         angle=Math.AngleBetweenVectors(EyeToTarget, TorretForward)
-        if angle<Paras.EnemyPOV/2:
+        if angle<Paras.EnemyPOV/2 and self.See(player):
             self.mIsSensed=True
-            # print('Sensed')
     
-    def CallAural(self, pos):
+    def CallAural(self, player):
         if self.mIsSensed:
             return
+        pos=player.mPosition
         if glm.length(pos-self.mOwner.mPosition)<Paras.EnemyHearingRad:
             self.mIsSensed=True
+    
+    #The target of this function is to test whether the enemy is able to shoot at the player tank
+    #Therefore, no need to use sub steps test for the FOV
+    def See(self, player):
+        obstacles=self.mOwner.mGame.mObstacles
+        for obstacle in obstacles:
+            if obstacle.mCollisionComp.mCollider.CheckCollisionWithRay(self.mOwner.mPosition, glm.normalize(player.mPosition-self.mOwner.mPosition), glm.length(player.mPosition-self.mOwner.mPosition)):
+                return False
+        return True
