@@ -9,6 +9,7 @@ class EnemyGlobalState(State):
         super().Enter(owner)
     def Execute(self, owner):
         super().Execute(owner)
+        #Sense whether the PlayerTank is in attack range
     def Exit(self, owner):
         super().Exit(owner)
 
@@ -27,6 +28,7 @@ class EnemyDefaultState(State):
         super().Enter(owner)
     def Execute(self, owner):
         super().Execute(owner)
+        owner.mStateMachine.ChangeState(EnemyAttendState.get_instance())
     def Exit(self, owner):
         super().Exit(owner)
 
@@ -51,9 +53,11 @@ class EnemyWanderState(State):
         super().Execute(owner)
         
         #If already attend the wanderpos, generate a new one
-        if owner.mNavigationComp.mIsOnTarget:
+        if owner.mNavigationComp.mIsOnTarget or owner.mNavigationComp.mPathFinder.mUnableToAttend:
             print('Generate new WanderPos')
             wanderPos=owner.GenerateWanderPos()
+            print(wanderPos)
+            owner.mNavigationComp.mPathFinder.Reset()
             owner.mNavigationComp.InitPath(wanderPos)
             
     def Exit(self, owner):
@@ -67,8 +71,27 @@ class EnemyWanderState(State):
         return EnemyWanderState._Instance
     _Instance = None
 
-#When Other Enemy is died, goto that position
+#When Other Enemy is died, goto that player position for ease
 class EnemyAttendState(State):
+    def __init__(self):
+            super().__init__()
+    def Enter(self, owner):
+        super().Enter(owner)
+        owner.mSteeringBehaviors.SeekOn()
+        owner.mNavigationComp.InitPath(glm.vec2(owner.mGame.mPlayerTank.mPosition.xy))
+    def Execute(self, owner):
+        super().Execute(owner)
+    def Exit(self, owner):
+        super().Exit(owner)
+        owner.mSteeringBehaviors.SeekOff()
+    @staticmethod
+    def get_instance():
+        if EnemyAttendState._Instance is None:
+            EnemyAttendState._Instance = EnemyAttendState()
+        return EnemyAttendState._Instance
+    _Instance = None
+    
+class EnemyAttackState(State):
     def __init__(self):
             super().__init__()
     def Enter(self, owner):
@@ -86,47 +109,31 @@ class EnemyAttendState(State):
 
     @staticmethod
     def get_instance():
-        if EnemyWanderState._Instance is None:
-            EnemyWanderState._Instance = EnemyWanderState()
-        return EnemyWanderState._Instance
+        if EnemyAttackState._Instance is None:
+            EnemyAttackState._Instance = EnemyAttackState()
+        return EnemyAttackState._Instance
     _Instance = None
-
-#Chase Player
-class EnemyChaseState(State):
+    
+class EnemyDeadState(State):
     def __init__(self):
-        super().__init__()
+            super().__init__()
     def Enter(self, owner):
         super().Enter(owner)
-        owner.mSteeringBehaviors.PursuitOn()
+        self.mActive=False
+        enemies=owner.mGame.mEnemies
+        for enemy in enemies:
+            enemy.mStateMachine.ChangeState(EnemyAttendState.get_instance())
     def Execute(self, owner):
         super().Execute(owner)
     def Exit(self, owner):
         super().Exit(owner)
-        owner.mSteeringBehaviors.PursuitOff()
+        #owner.mSteeringBehaviors.WanderOff()
+        owner.mSteeringBehaviors.SeekOff()
+        #owner.mSteeringBehaviors.PursuitOff()
 
     @staticmethod
     def get_instance():
-        if EnemyChaseState._Instance is None:
-            EnemyChaseState._Instance = EnemyChaseState()
-        return EnemyChaseState._Instance
-    _Instance = None
-
-#Received Attack from player, flee away from the Player
-class EnemyEvadeState(State):
-    def __init__(self):
-        super().__init__()
-    def Enter(self, owner):
-        super().Enter(owner)
-        owner.mSteeringBehaviors.EvadeOn()
-    def Execute(self, owner):
-        super().Execute(owner)
-    def Exit(self, owner):
-        super().Exit(owner)
-        owner.mSteeringBehaviors.EvadeOff()
-
-    @staticmethod
-    def get_instance():
-        if EnemyEvadeState._Instance is None:
-            EnemyEvadeState._Instance = EnemyEvadeState()
-        return EnemyEvadeState._Instance
+        if EnemyDeadState._Instance is None:
+            EnemyDeadState._Instance = EnemyDeadState()
+        return EnemyDeadState._Instance
     _Instance = None

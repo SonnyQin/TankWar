@@ -9,7 +9,7 @@ class GameMap:
         column=y//1000
         if y%1000!=0:
             column+=1
-        return row-1,column-1
+        return int(row-1), int(column-1)
     
     def GetWorldLocation(row, column):
         # 计算世界坐标，假设每个格子的大小是1000单位

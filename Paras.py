@@ -12,7 +12,7 @@ CoolDownTime=1
 EnemyMaxForce=1000
 EnemyMaxSpeed=300
 EnemyMass=10
-EnemyWanderRad=100
+EnemyWanderRad=2000
 
 #EnemyEasy
 

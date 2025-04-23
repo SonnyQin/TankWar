@@ -14,6 +14,7 @@ class PathFinder:
         self.came_from = {}  # 记录路径
         self.g_score = {}  # G 值
         self.f_score = {}  # F 值
+        self.mUnableToAttend=False
 
     def Heuristic(self, node, goal):
         # 计算启发值（例如曼哈顿距离）
@@ -23,9 +24,11 @@ class PathFinder:
         # 获取当前节点的邻居
         x, y = node
         neighbors = []
-        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+        # 包括上下左右以及斜对角方向
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+        for dx, dy in directions:
             nx, ny = x + dx, y + dy
-            if 0 <= nx < len(self.map) and 0 <= ny < len(self.map[0]) and (self.map[nx][ny] == 0 or self.map[nx][ny]=='.'):
+            if 0 <= nx < len(self.map) and 0 <= ny < len(self.map[0]) and (self.map[nx][ny] == 0 or self.map[nx][ny] == '.' or self.map[nx][ny] == '@' or self.map[nx][ny] == '$'):
                 neighbors.append((nx, ny))
         return neighbors
 
@@ -39,6 +42,8 @@ class PathFinder:
 
     def FindPathStep(self):
         if not self.open_list:
+            print('Unable to Attend')
+            self.mUnAbleToAttend=True
             return False  # 没有更多的节点可探索
 
         # 弹出 F 值最小的节点
@@ -64,6 +69,9 @@ class PathFinder:
         self.start = start
         self.goal = goal
         self.open_list = []
+        self.mUnAbleToAttend=False
+        heap=[]
+        heapq.heapify(heap)
         heapq.heappush(self.open_list, (0, start))  # (f_score, node)
         self.came_from = {start: None}
         self.g_score = {start: 0}
@@ -77,6 +85,7 @@ class PathFinder:
         self.came_from = {}
         self.g_score = {}
         self.f_score = {}
+        self.mUnAbleToAttend=False
 
     # Transform from index form to position form
     @staticmethod

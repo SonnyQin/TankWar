@@ -16,12 +16,15 @@ class NavigationComponent(Component):
         self.mIsOnTarget=False
     
     def InitPath(self, targetPos):
-        print('Start calculate path')
+        self.mPathProcedure=None
+        self.mTargetPos=targetPos
         self.mIsFindingPath=True
         self.mIsOnTarget=False
-        self.mTargetPos=targetPos
-        self.mPathFinder.StartFindPath(GameMap.GetMapLocation(self.mOwner.mPosition.x, self.mOwner.mPosition.y),
-                                GameMap.GetMapLocation(self.mTargetPos.x, self.mTargetPos.y))
+        startLoc=GameMap.GetMapLocation(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
+        goalLoc=GameMap.GetMapLocation(self.mTargetPos.x, self.mTargetPos.y)
+        self.mPathFinder.StartFindPath(startLoc,goalLoc)
+        print(self.mOwner.mGame.mGameMap.mMap)
+        print('Start calculate path', startLoc, goalLoc)
         
     
     def Update(self, deltatime):
@@ -36,7 +39,14 @@ class NavigationComponent(Component):
                 self.mIsFindingPath=False
                 self.mPathProcedure=PathProcedure(PathFinder.IndexToPosition(r,self.mTargetPos))
                 #print(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
-                print(self.mPathProcedure.mPath[0])
+                print(self.mPathProcedure.mPath)
+            #Unable to get to the position
+            if r==False:
+                self.mPathProcedure=None
+                self.mTargetPos=None
+                self.mIsFindingPath=False
+                self.mIsOnTarget=False
+                return
         
         #If currently not finding the path and the path has already found
         #Just follow the path
@@ -51,7 +61,7 @@ class NavigationComponent(Component):
                 if glm.length(self.mOwner.mPosition.xy - currentNode) < 10:
                     self.mOwner.mMovementComp.mAngularSpeed=0
                     self.mOwner.mMovementComp.mForwardSpeed=0
-                    print('Attend A Node')
+                    print('Attend a Node')
                     #Check whether finish the path
                     if self.mPathProcedure.NextNode():
                         #Reset target to the next node
@@ -60,4 +70,5 @@ class NavigationComponent(Component):
                     else:
                         #Finished
                         self.mIsOnTarget=True
+                        self.mOwner.mSteeringBehaviors.mTargetPos=None
                         print('On Target')

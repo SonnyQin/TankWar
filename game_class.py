@@ -131,9 +131,11 @@ class Game:
                 #Construct enemy
                 if map[x][y]=='@':
                     from AI.StateMachine.States.enemyStates import EnemyWanderState
+                    from AI.StateMachine.States.enemyStates import EnemyAttendState
+                    from AI.StateMachine.States.enemyStates import EnemyDefaultState
                     ea=EnemyTank(self)
                     ea.mPosition=glm.vec3(px+100, py+100, 15)
-                    ea.mStateMachine.ChangeState(EnemyWanderState.get_instance())
+                    ea.mStateMachine.ChangeState(EnemyDefaultState.get_instance())
                 #Construct Obstacles
                 if map[x][y]=='#':
                     oe=CubeActor(self)
