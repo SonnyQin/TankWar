@@ -4,6 +4,7 @@ from AI.SteeringBehavior.steeringBehavior_class import SteeringBehaviors
 from AI.StateMachine.States.enemyStates import *
 from AI.PathFinding.pathFinder_class import PathFinder
 from Component.navigationComponent_class import NavigationComponent
+from Component.senseComponent_class import SenseComponent
 from gameMap_class import GameMap
 import random
 import glm
@@ -23,6 +24,7 @@ class EnemyTank(Tank):
         self.mSteeringBehaviors.mTargetPos=None
         
         self.mNavigationComp=NavigationComponent(self)
+        self.mSenseComp=SenseComponent(self)
         
         self.mStateMachine=StateMachine(self)
         self.mStateMachine.mGlobalState=EnemyGlobalState.get_instance()
@@ -31,14 +33,15 @@ class EnemyTank(Tank):
         self.mStateMachine.mCurrentState.Enter(self)
         
     def Update(self, deltatime):
-        self.mStateMachine.Update()
         super().Update(deltatime)
+        #print(self.mSenseComp.mIsSensed)
         
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
         # if self.mSteeringBehaviors.mTargetPos:
         #     print(self.mSteeringBehaviors.mTargetPos)
         
+        self.mStateMachine.Update()
         #Move the tank
         self.Steering(deltatime)
         
@@ -113,6 +116,7 @@ class EnemyTank(Tank):
     def onCollide(self, instigator):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
             self.mHealth-=25
+            self.mSenseComp.mIsSensed=True
             print('Collide')
             if self.mHealth<=0:
                 print('Explode')

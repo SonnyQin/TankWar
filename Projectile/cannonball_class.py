@@ -32,7 +32,11 @@ class Cannonball(Actor):
     
     def Update(self, deltatime):
         super().Update(deltatime)
-        #self.mCube.mPosition=glm.vec3(self.mPosition)
+        map=self.mGame.mGameMap.mMap
+        gameWidth=len(map)*1000
+        gameHeight=len(map[0])*1000
+        if self.mPosition.x <0 or self.mPosition.x>gameWidth or self.mPosition.y<0 or self.mPosition.y>gameHeight:
+            self.mActive=False
     
     def onCollide(self, instigator):
         self.mActive=False

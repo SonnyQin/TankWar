@@ -4,6 +4,7 @@ from Actor.Camera.cameraActor_class import CameraActor
 from Actor.Camera.rawCamera_class import RawCamera
 from Actor.Camera.freeCamera_class import FreeCamera
 from Actor.cubeActor_class import CubeActor
+from Actor.Obstacles.block_class import Block
 from Actor.healthbar_class import  HealthBar
 from Actor.planeActor_class import PlaneActor
 from Actor.Tanks.tank_class import Tank
@@ -32,6 +33,7 @@ class Game:
         
         self.mProjectiles=[]
         self.mEnemies=[]
+        self.mObstacles=[]
         
         self.mCollisionManager=CollisionManager(self)
         
@@ -138,7 +140,7 @@ class Game:
                     ea.mStateMachine.ChangeState(EnemyDefaultState.get_instance())
                 #Construct Obstacles
                 if map[x][y]=='#':
-                    oe=CubeActor(self)
+                    oe=Block(self)
                     oe.mPosition=glm.vec3(px, py, 50)
                     pass
                 if map[x][y]=='$':

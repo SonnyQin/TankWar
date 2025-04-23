@@ -1,3 +1,5 @@
+import math
+
 FPS=60
 WINDOWWIDTH = 1000
 WINDOWHEIGHT = 700
@@ -13,6 +15,9 @@ EnemyMaxForce=1000
 EnemyMaxSpeed=300
 EnemyMass=10
 EnemyWanderRad=2000
+EnemySight=1500
+EnemyPOV=math.radians(135)
+EnemyHearingRad=1000
 
 #EnemyEasy
 

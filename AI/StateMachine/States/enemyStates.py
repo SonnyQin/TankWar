@@ -9,7 +9,7 @@ class EnemyGlobalState(State):
         super().Enter(owner)
     def Execute(self, owner):
         super().Execute(owner)
-        #Sense whether the PlayerTank is in attack range
+        
     def Exit(self, owner):
         super().Exit(owner)
 
@@ -28,7 +28,7 @@ class EnemyDefaultState(State):
         super().Enter(owner)
     def Execute(self, owner):
         super().Execute(owner)
-        owner.mStateMachine.ChangeState(EnemyAttendState.get_instance())
+        #owner.mStateMachine.ChangeState(EnemyAttendState.get_instance())
     def Exit(self, owner):
         super().Exit(owner)
 

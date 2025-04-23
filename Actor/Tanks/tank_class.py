@@ -45,8 +45,15 @@ class Tank(Actor):
         self.mChassis.mPosition=glm.vec3(self.mPosition)
         self.mChassis.mRotation=glm.quat(self.mRotation)
         
+        #Call enemy sense
+        for enemy in self.mGame.mEnemies:
+            enemy.mSenseComp.CallVisual(self.mPosition)
+        
     def Fire(self):
         if self.mCoolDownTime<Paras.CoolDownTime:
             return
         self.mCoolDownTime=0
         Cannonball(self)
+        #Call enemy sense
+        for enemy in self.mGame.mEnemies:
+            enemy.mSenseComp.CallAural(self.mPosition)

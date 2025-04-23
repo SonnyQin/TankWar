@@ -77,6 +77,89 @@ class SphereCollider:
         # 如果两个球体的中心距离小于它们半径之和，则发生碰撞
         return distance < (self.mRadius + other.mRadius)
     
+    # 检查球体与线段的碰撞
+    def CheckCollisionWithRay(self, ray_origin, ray_dir, ray_length):
+        # 计算从线段起点到球体中心的向量
+        oc = ray_origin - self.mCenter
+        a = glm.dot(ray_dir, ray_dir)
+        b = 2.0 * glm.dot(oc, ray_dir)
+        c = glm.dot(oc, oc) - self.mRadius * self.mRadius
+        discriminant = b * b - 4.0 * a * c
+        
+        if discriminant < 0:
+            return False  # 没有交点
+        
+        # 计算交点
+        sqrt_discriminant = glm.sqrt(discriminant)
+        t1 = (-b - sqrt_discriminant) / (2.0 * a)
+        t2 = (-b + sqrt_discriminant) / (2.0 * a)
+
+        # 只检测在射线的方向上（t > 0）并且在射线长度范围内的交点
+        if t1 >= 0 and t1 <= ray_length:
+            return True
+        if t2 >= 0 and t2 <= ray_length:
+            return True
+
+        return False  # 没有交点
+
+class BoxCollider:
+    def __init__(self, center, half_extents):
+        self.mCenter = center  # 盒子的中心，使用 glm.vec3 表示
+        self.mHalfExtents = half_extents  # 盒子的半宽、半高和半深度，使用 glm.vec3 表示
+
+    # 检查当前盒子是否与另一个盒子发生碰撞
+    def CheckCollision(self, other):
+        # 检查盒子是否重叠的AABB碰撞检测
+        x_overlap = abs(self.mCenter.x - other.mCenter.x) <= (self.mHalfExtents.x + other.mHalfExtents.x)
+        y_overlap = abs(self.mCenter.y - other.mCenter.y) <= (self.mHalfExtents.y + other.mHalfExtents.y)
+        z_overlap = abs(self.mCenter.z - other.mCenter.z) <= (self.mHalfExtents.z + other.mHalfExtents.z)
+        
+        return x_overlap and y_overlap and z_overlap
+
+    # 检查当前盒子是否与球体发生碰撞
+    def CheckCollisionWithSphere(self, sphere):
+        # 找出盒子和球体之间最近的点
+        closest_point = glm.clamp(sphere.mCenter, 
+                                  self.mCenter - self.mHalfExtents, 
+                                  self.mCenter + self.mHalfExtents)
+        
+        # 计算这个点到球心的距离
+        distance = glm.length(closest_point - sphere.mCenter)
+        
+        # 如果距离小于球体的半径，则发生碰撞
+        return distance < sphere.mRadius
+    
+    # 检查盒子与线段的碰撞
+    def CheckCollisionWithRay(self, ray_origin, ray_dir, ray_length):
+        tmin = -float('inf')
+        tmax = float('inf')
+
+        for i in range(3):  # X, Y, Z
+            if glm.abs(ray_dir[i]) < 1e-6:  # 方向上没有变化
+                if ray_origin[i] < self.mCenter[i] - self.mHalfExtents[i] or ray_origin[i] > self.mCenter[i] + self.mHalfExtents[i]:
+                    return False  # 没有交点
+            else:
+                t1 = (self.mCenter[i] - self.mHalfExtents[i] - ray_origin[i]) / ray_dir[i]
+                t2 = (self.mCenter[i] + self.mHalfExtents[i] - ray_origin[i]) / ray_dir[i]
+
+                if t1 > t2:
+                    t1, t2 = t2, t1
+
+                tmin = max(tmin, t1)
+                tmax = min(tmax, t2)
+
+                if tmin > tmax:
+                    return False  # 没有交点
+
+        if tmin < 0 and tmax < 0:
+            return False  # 完全在射线的负方向上
+
+        if tmin > ray_length:
+            return False  # 交点在射线长度外
+
+        return True  # 有交点
+
+    
 def AngleBetweenVectors(v1, v2):
     # 计算点积
     dot_product = glm.dot(v1, v2)
