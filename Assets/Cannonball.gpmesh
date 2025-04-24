@@ -1,12 +1,13 @@
 {
   "version": 1,
   "vertexformat": "PosNormSkinTex",
-  "shader": "BasicMesh",
+  "shader": "MetallicBlinnPhongShader",
   "textures": [
     "Assets/Cannonball.jpg",
     "Assets/Ground.jpg"
   ],
   "specularPower": 100.0,
+  "metallic":0.8,
   "vertices": [
     [
       0.03715217113494873,

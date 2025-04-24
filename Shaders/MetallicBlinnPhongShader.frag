@@ -54,6 +54,10 @@ void main()
 	// Compute phong reflection
 	vec3 Phong = uAmbientLight;
 	float NdotL = dot(N, L);
+    if(NdotL<0)
+    {
+        NdotL=-NdotL;
+    }
 	if (NdotL > 0)
 	{
 		vec3 Diffuse = (1.0-uMetallic)*uDirLight.mDiffuseColor * NdotL;

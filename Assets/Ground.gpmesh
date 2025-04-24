@@ -1,11 +1,12 @@
 {
   "version": 1,
   "vertexformat": "PosNormSkinTex",
-  "shader": "BasicMesh",
+  "shader": "MetallicBlinnPhongShader",
   "textures": [
     "Assets/Ground.webp"
   ],
   "specularPower": 100.0,
+  "metallic":0.78,
   "vertices": [
     [
       -10,

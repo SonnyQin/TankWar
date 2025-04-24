@@ -6,6 +6,7 @@
     "Assets/Sky.jpeg"
   ],
   "specularPower": 100.0,
+  "metallic":0,
   "vertices": [
     [
       0.5555702447891235,

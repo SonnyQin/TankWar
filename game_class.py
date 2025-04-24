@@ -21,6 +21,7 @@ class Game:
         self.mActors = []
         self.mIsRunning = True
         self.mRenderer=Renderer(self, Paras.WINDOWWIDTH, Paras.WINDOWHEIGHT)
+        self.mAmbientLight=None
         self.mDirectionalLight=None
         self.mCameras=[]
         # self.mCameraActor=RawCamera(self)
@@ -60,15 +61,18 @@ class Game:
         self.mGameMap=GameMap(mp)
         self.ConstructMap(mp)
         
-        # self.mSkyBox=SkyDome(self)
-        # self.mSkyBox.mPosition=self.mGameMap.GetCenter()
-        # scale=max(self.mGameMap.GetMapWidth(), self.mGameMap.GetMapHeight())
-        # self.mSkyBox.mScale=1.3*scale
+        self.mSkyBox=SkyDome(self)
+        self.mSkyBox.mPosition=self.mGameMap.GetCenter()
+        scale=max(self.mGameMap.GetMapWidth(), self.mGameMap.GetMapHeight())
+        self.mSkyBox.mScale=1.3*scale
+        
+        self.mAmbientLight=glm.vec3(0.1,0.1,0.1)
+        
         self.mDirectionalLight=DirectionalLight(self)
-        self.mDirectionalLight.mPosition=self.mGameMap.GetCenter()+glm.vec3(0,0,100)
-        self.mDirectionalLight.mDiffuseColor=glm.vec3(100,0,0)
-        self.mDirectionalLight.mSpecColor=glm.vec3(0,100,0)
-        self.mDirectionalLight.mDirection=glm.vec3(0,0,-1)
+        self.mDirectionalLight.mPosition=self.mGameMap.GetCenter()+glm.vec3(0,0,10000)
+        self.mDirectionalLight.mDiffuseColor=glm.vec3(3.2,3.2,3.2)
+        self.mDirectionalLight.mSpecColor=glm.vec3(3.2,3.2,3.2)
+        self.mDirectionalLight.mDirection = glm.vec3(0.5, -1.0, -1.0)
 
     def Loop(self):
         while self.mIsRunning:

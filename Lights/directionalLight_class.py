@@ -12,6 +12,6 @@ class DirectionalLight(Actor):
         self.mDiffuseColor=None
         self.mSpecColor=None
         
-        #For debugging
-        self.mMeshComp=MeshComponent(self)
-        self.mMeshComp.mMesh=self.mGame.mRenderer.GetMesh('Assets/Sphere.gpmesh')
+        # #For debugging
+        # self.mMeshComp=MeshComponent(self)
+        # self.mMeshComp.mMesh=self.mGame.mRenderer.GetMesh('Assets/Sphere.gpmesh')

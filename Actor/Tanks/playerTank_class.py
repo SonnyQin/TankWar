@@ -58,7 +58,7 @@ class PlayerTank(Tank):
             
     def onCollide(self, instigator):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
-            self.mHealth-=25
+            #self.mHealth-=25
             print('I am being hit')
             if self.mHealth<=0:
                 print('Game Over')

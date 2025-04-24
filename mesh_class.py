@@ -6,6 +6,7 @@ import glm
 class Mesh:
     def __init__(self):
         self.mSpecPower=0
+        self.mMetallic=0
         self.mTextures=[]
         self.mVertexArray=None
         self.mShader=None
@@ -42,6 +43,7 @@ class Mesh:
             return False
         
         self.mSpecPower = float(doc.get("specularPower", 0.0))
+        self.mMetallic = float(doc.get("metallic", 0.0))
 
         for tex_name in textures:
             tex = renderer.GetTexture(tex_name)

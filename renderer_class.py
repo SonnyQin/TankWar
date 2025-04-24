@@ -67,9 +67,13 @@ class Renderer:
         self.mHorizontalProj=Math.create_simple_view_proj(Paras.WINDOWWIDTH, Paras.WINDOWHEIGHT)
         self.mSpriteShader.SetMatrixUniform('uViewProj', self.mHorizontalProj)
 
-        self.mSimpleShader=Shader()
-        self.mSimpleShader.Load('Shaders/BasicShader.vert', 'Shaders/BasicShader.frag')
-        self.mSimpleShader.SetActive()
+        # self.mSimpleShader=Shader()
+        # self.mSimpleShader.Load('Shaders/BasicShader.vert', 'Shaders/BasicShader.frag')
+        # self.mSimpleShader.SetActive()
+        
+        # self.mFancyShader=Shader()
+        # self.mFancyShader.Load('Shaders/MetallicBlinnPhongShader.vert', 'Shaders/MetallicBlinnPhongShader.frag')
+        # self.mFancyShader.SetActive()
         
         return True
     
@@ -132,7 +136,7 @@ class Renderer:
         self.mSpriteVerts = VertexArray(vertices, 4, indices, 6);
 
     def Draw(self):
-        glDisable(GL_CULL_FACE)  # 禁用背面剔除
+        #glDisable(GL_CULL_FACE)  # 禁用背面剔除
         # Render the scene (clear the screen and render)
         glClearColor(0.5,0,0,1)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -147,10 +151,19 @@ class Renderer:
         for camera in self.mGame.mCameras:
             camera.Update()
         
+        mainCamera=self.mGame.mCameras[0]
+
+        
         for mc in self.mMeshComponents:
             if mc.mOwner.mActive:
                 mc.mMesh.mShader.SetActive()
                 mc.mMesh.mShader.SetMatrixUniform("uViewProj", self.mProjection*self.mView)
+                mc.mMesh.mShader.SetVectorUniform('uCameraPos', mainCamera.mPosition)
+                mc.mMesh.mShader.SetVectorUniform('uAmbientLight', self.mGame.mAmbientLight)
+                dirLight=self.mGame.mDirectionalLight
+                mc.mMesh.mShader.SetVectorUniform('uDirLight.mDirection', dirLight.mDirection)
+                mc.mMesh.mShader.SetVectorUniform('uDirLight.mDiffuseColor', dirLight.mDiffuseColor)
+                mc.mMesh.mShader.SetVectorUniform('uDirLight.mSpecColor', dirLight.mSpecColor)
                 mc.Draw()
             #print(glGetError())
         

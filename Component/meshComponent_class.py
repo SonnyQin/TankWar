@@ -21,6 +21,8 @@ class MeshComponent(Component):
             shader.SetActive()
             shader.SetMatrixUniform("uWorldTransform", self.mOwner.mWorldTransform)
             shader.SetFloatUniform("uSpecPower", self.mMesh.mSpecPower)
+            shader.SetFloatUniform('uMetallic', self.mMesh.mMetallic)
+            
             # self.mMesh.mShader.SetMatrixUniform("uViewProj", self.mOwner.mGame.mRenderer.mProjection*self.mOwner.mGame.mRenderer.mView)
             #glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)  # 切换到线框模式
             glDrawElements(GL_TRIANGLES, va.mNumIndices, GL_UNSIGNED_INT, ctypes.c_void_p(0))
