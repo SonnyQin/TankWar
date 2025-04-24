@@ -1,0 +1,90 @@
+Date : 2025-04-24 01:27:49
+Directory : c:\Users\A\Desktop\TankWar
+Total : 48 files,  1903 codes, 416 comments, 521 blanks, all 2840 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Python   |         41 |      1,841 |        335 |        486 |      2,662 |
+| GLSL     |          6 |         54 |         79 |         34 |        167 |
+| JSON     |          1 |          8 |          2 |          1 |         11 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                     | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                        |         48 |      1,903 |        416 |        521 |      2,840 |
+| . (Files)                                                                |         14 |        825 |        170 |        259 |      1,254 |
+| AI                                                                       |          5 |        363 |         46 |         74 |        483 |
+| AI\PathFinding                                                           |          1 |        108 |         17 |         24 |        149 |
+| AI\StateMachine                                                          |          3 |        167 |         14 |         21 |        202 |
+| AI\StateMachine (Files)                                                  |          1 |         20 |          0 |          4 |         24 |
+| AI\StateMachine\States                                                   |          2 |        147 |         14 |         17 |        178 |
+| AI\SteeringBehavior                                                      |          1 |         88 |         15 |         29 |        132 |
+| Actor                                                                    |         14 |        434 |         74 |        110 |        618 |
+| Actor (Files)                                                            |          4 |         83 |         15 |         19 |        117 |
+| Actor\Camera                                                             |          4 |         96 |         10 |         28 |        134 |
+| Actor\Obstacles                                                          |          1 |         19 |          3 |          3 |         25 |
+| Actor\Tanks                                                              |          5 |        236 |         46 |         60 |        342 |
+| Assets                                                                   |          1 |          8 |          2 |          1 |         11 |
+| Component                                                                |          7 |        185 |         39 |         39 |        263 |
+| Projectile                                                               |          1 |         34 |          6 |          4 |         44 |
+| Shaders                                                                  |          6 |         54 |         79 |         34 |        167 |
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                 | language | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\A\Desktop\TankWar\AI\PathFinding\pathFinder_class.py            | Python   |        108 |         17 |         24 |        149 |
+| c:\Users\A\Desktop\TankWar\AI\StateMachine\States\enemyStates.py         | Python   |        135 |         13 |         17 |        165 |
+| c:\Users\A\Desktop\TankWar\AI\StateMachine\States\state_class.py         | Python   |         12 |          1 |          0 |         13 |
+| c:\Users\A\Desktop\TankWar\AI\StateMachine\stateMachine_class.py         | Python   |         20 |          0 |          4 |         24 |
+| c:\Users\A\Desktop\TankWar\AI\SteeringBehavior\steeringBehavior_class.py | Python   |         88 |         15 |         29 |        132 |
+| c:\Users\A\Desktop\TankWar\Actor\Camera\cameraActor_class.py             | Python   |         21 |          0 |          4 |         25 |
+| c:\Users\A\Desktop\TankWar\Actor\Camera\followCamera_class.py            | Python   |         20 |          8 |         13 |         41 |
+| c:\Users\A\Desktop\TankWar\Actor\Camera\freeCamera_class.py              | Python   |         31 |          2 |          5 |         38 |
+| c:\Users\A\Desktop\TankWar\Actor\Camera\rawCamera_class.py               | Python   |         24 |          0 |          6 |         30 |
+| c:\Users\A\Desktop\TankWar\Actor\Obstacles\block_class.py                | Python   |         19 |          3 |          3 |         25 |
+| c:\Users\A\Desktop\TankWar\Actor\Tanks\chassis_class.py                  | Python   |         13 |          0 |          2 |         15 |
+| c:\Users\A\Desktop\TankWar\Actor\Tanks\enemyTank_class.py                | Python   |         94 |         35 |         36 |        165 |
+| c:\Users\A\Desktop\TankWar\Actor\Tanks\playerTank_class.py               | Python   |         57 |          4 |         10 |         71 |
+| c:\Users\A\Desktop\TankWar\Actor\Tanks\tank_class.py                     | Python   |         44 |          5 |          9 |         58 |
+| c:\Users\A\Desktop\TankWar\Actor\Tanks\torret_class.py                   | Python   |         28 |          2 |          3 |         33 |
+| c:\Users\A\Desktop\TankWar\Actor\actor_class.py                          | Python   |         48 |          5 |         14 |         67 |
+| c:\Users\A\Desktop\TankWar\Actor\cubeActor_class.py                      | Python   |         13 |          1 |          2 |         16 |
+| c:\Users\A\Desktop\TankWar\Actor\healthbar_class.py                      | Python   |         11 |          9 |          1 |         21 |
+| c:\Users\A\Desktop\TankWar\Actor\planeActor_class.py                     | Python   |         11 |          0 |          2 |         13 |
+| c:\Users\A\Desktop\TankWar\Assets\Safe.json                              | JSON     |          8 |          2 |          1 |         11 |
+| c:\Users\A\Desktop\TankWar\Component\collisionComponent_class.py         | Python   |         15 |          0 |          3 |         18 |
+| c:\Users\A\Desktop\TankWar\Component\component_class.py                  | Python   |          9 |          2 |          2 |         13 |
+| c:\Users\A\Desktop\TankWar\Component\meshComponent_class.py              | Python   |         22 |          2 |          3 |         27 |
+| c:\Users\A\Desktop\TankWar\Component\movementComponent_class.py          | Python   |         23 |          2 |          8 |         33 |
+| c:\Users\A\Desktop\TankWar\Component\navigationComponent_class.py        | Python   |         60 |         13 |          8 |         81 |
+| c:\Users\A\Desktop\TankWar\Component\senseComponent_class.py             | Python   |         34 |         12 |          6 |         52 |
+| c:\Users\A\Desktop\TankWar\Component\spriteComponent_class.py            | Python   |         22 |          8 |          9 |         39 |
+| c:\Users\A\Desktop\TankWar\Math.py                                       | Python   |        145 |         20 |         42 |        207 |
+| c:\Users\A\Desktop\TankWar\Paras.py                                      | Python   |         16 |          4 |          7 |         27 |
+| c:\Users\A\Desktop\TankWar\Projectile\cannonball_class.py                | Python   |         34 |          6 |          4 |         44 |
+| c:\Users\A\Desktop\TankWar\Shaders\BasicMesh.frag                        | GLSL     |          8 |         13 |          6 |         27 |
+| c:\Users\A\Desktop\TankWar\Shaders\BasicMesh.vert                        | GLSL     |         13 |         14 |          7 |         34 |
+| c:\Users\A\Desktop\TankWar\Shaders\BasicShader.frag                      | GLSL     |          6 |         11 |          4 |         21 |
+| c:\Users\A\Desktop\TankWar\Shaders\BasicShader.vert                      | GLSL     |          6 |         14 |          4 |         24 |
+| c:\Users\A\Desktop\TankWar\Shaders\Sprite.frag                           | GLSL     |          8 |         12 |          6 |         26 |
+| c:\Users\A\Desktop\TankWar\Shaders\Sprite.vert                           | GLSL     |         13 |         15 |          7 |         35 |
+| c:\Users\A\Desktop\TankWar\collisionManager_class.py                     | Python   |         24 |          5 |          5 |         34 |
+| c:\Users\A\Desktop\TankWar\gameMap_class.py                              | Python   |         15 |          1 |          4 |         20 |
+| c:\Users\A\Desktop\TankWar\game_class.py                                 | Python   |         97 |         29 |         27 |        153 |
+| c:\Users\A\Desktop\TankWar\gpmesh_export_v2.py                           | Python   |        206 |         51 |         71 |        328 |
+| c:\Users\A\Desktop\TankWar\levelGenerator_class.py                       | Python   |          0 |          0 |          1 |          1 |
+| c:\Users\A\Desktop\TankWar\main.py                                       | Python   |          5 |          0 |          1 |          6 |
+| c:\Users\A\Desktop\TankWar\mapGenerator_class.py                         | Python   |         23 |          6 |          9 |         38 |
+| c:\Users\A\Desktop\TankWar\mesh_class.py                                 | Python   |         60 |          9 |         18 |         87 |
+| c:\Users\A\Desktop\TankWar\renderer_class.py                             | Python   |        121 |         18 |         37 |        176 |
+| c:\Users\A\Desktop\TankWar\shader_class.py                               | Python   |         62 |         10 |         17 |         89 |
+| c:\Users\A\Desktop\TankWar\texture_class.py                              | Python   |         27 |          8 |         11 |         46 |
+| c:\Users\A\Desktop\TankWar\vertexArray_class.py                          | Python   |         24 |          9 |          9 |         42 |
+| Total                                                                    |          |      1,903 |        416 |        521 |      2,840 |
++--------------------------------------------------------------------------+----------+------------+------------+------------+------------+

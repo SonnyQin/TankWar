@@ -30,9 +30,9 @@ class PlayerTank(Tank):
         if(keyState[pygame.K_s]):
             forwardSpeed-=100
         if(keyState[pygame.K_a]):
-            angularSpeed-=0.5*math.pi
+            angularSpeed-=0.3*math.pi
         if(keyState[pygame.K_d]):
-            angularSpeed+=0.5*math.pi
+            angularSpeed+=0.3*math.pi
             
         self.mMovementComp.mForwardSpeed=forwardSpeed
         self.mMovementComp.mAngularSpeed=angularSpeed
@@ -42,16 +42,18 @@ class PlayerTank(Tank):
         
         extraSpeed=0
         if(keyState[pygame.K_j]):
-            extraSpeed-=math.pi
+            extraSpeed-=0.5*math.pi
         if(keyState[pygame.K_k]):
-            extraSpeed+=math.pi
+            extraSpeed+=0.5*math.pi
         self.mTorret.mMovementComp.mAngularSpeed+=extraSpeed
         
         if(keyState[pygame.K_SPACE]):
             self.Fire()
+            
     def onCollide(self, instigator):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
             self.mHealth-=25
+            print('I am being hit')
             if self.mHealth<=0:
                 print('Game Over')
                 self.mActive=False
@@ -59,3 +61,11 @@ class PlayerTank(Tank):
             OtoS=glm.normalize(instigator.mPosition-self.mPosition)
             OtoS.z=0
             self.mPosition-=2*OtoS
+            
+    def Fire(self):
+        if super().Fire():
+            #Call enemy sense
+            for enemy in self.mGame.mEnemies:
+                enemy.mSenseComp.CallAural(self)
+            return True
+        return False

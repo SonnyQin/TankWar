@@ -2,7 +2,6 @@ from Actor.Tanks.tank_class import Tank
 from AI.StateMachine.stateMachine_class import StateMachine
 from AI.SteeringBehavior.steeringBehavior_class import SteeringBehaviors
 from AI.StateMachine.States.enemyStates import *
-from AI.PathFinding.pathFinder_class import PathFinder
 from Component.navigationComponent_class import NavigationComponent
 from Component.senseComponent_class import SenseComponent
 from gameMap_class import GameMap
@@ -32,9 +31,11 @@ class EnemyTank(Tank):
         self.mStateMachine.mGlobalState.Enter(self)
         self.mStateMachine.mCurrentState.Enter(self)
         
+        self.mTorretWanderDirection=None
+        
     def Update(self, deltatime):
         super().Update(deltatime)
-        #print(self.mSenseComp.mIsSensed)
+        #print(self.mPosition)
         
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
@@ -45,18 +46,29 @@ class EnemyTank(Tank):
         #Move the tank
         self.Steering(deltatime)
         
+        self.TorretWander()
+        
+        self.TorretAim()
+        
         # if(glm.length(self.mPosition.xy-glm.vec2(500,500))<10):
         #     self.mSteeringBehaviors.SeekOff()
         #     self.mMovementComp.mForwardSpeed=0
         #     self.mMovementComp.mAngularSpeed=0
         
     def TurnTo(self, direction):
-        currentDirection=self.GetForward().xy
-        angle=Math.AngleBetweenVectors(currentDirection, direction)
-        if angle<0:
-            self.mMovementComp.mAngularSpeed=-0.1*math.pi
-        if angle>0:
-            self.mMovementComp.mAngularSpeed=0.1*math.pi
+        currentDirection = -self.GetForward().xy
+        # 计算叉积
+        crossProduct = currentDirection.x * direction.y - currentDirection.y * direction.x
+        # 计算角度差（可以根据叉积的符号来判断转向的方向）
+        if Math.NearZero(crossProduct):
+            self.mMovementComp.mAngularSpeed = 0
+            return True
+        if crossProduct < 0:  # 顺时针旋转
+            self.mMovementComp.mAngularSpeed = -0.3 * math.pi
+            return False
+        elif crossProduct > 0:  # 逆时针旋转
+            self.mMovementComp.mAngularSpeed = 0.3 * math.pi
+            return False
     
     #TODO may be optimized
     def Steering(self, deltatime):
@@ -72,24 +84,42 @@ class EnemyTank(Tank):
         expectDirection = glm.normalize(acceleration)
         
         # 获取当前角色的朝向（假设你有一个GetForward()方法返回当前的方向向量）
-        currentDirection = self.GetForward().xy
+        #currentDirection = self.GetForward().xy
 
-        # 判断是否需要转向
-        angleDifference = Math.AngleBetweenVectors(currentDirection, expectDirection)
+        # # 判断是否需要转向
+        # angleDifference = Math.AngleBetweenVectors(currentDirection, expectDirection)
         #print(angleDifference)
 
-        # 如果角度差异超过阈值，则执行转向
-        if not Math.NearZero(angleDifference, 0.01):
-            self.TurnTo(expectDirection)
-            # 如果需要转向，则直接返回，不进行位置更新
+        # # 如果角度差异超过阈值，则执行转向
+        # if not Math.NearZero(angleDifference, 0.01):
+            # self.TurnTo(expectDirection)
+            # # 如果需要转向，则直接返回，不进行位置更新
+            # return
+            
+        if not self.TurnTo(expectDirection):
             return
         
         # 计算前进速度
         self.mMovementComp.mForwardSpeed = glm.length(acceleration)
     
+    #Randomly rotate the Torret
     def TorretWander(self):
-        pass
-    
+        if self.mStateMachine.mCurrentState==EnemyWanderState.get_instance() or self.mStateMachine.mCurrentState==EnemyAttendState.get_instance():
+            if not self.mTorretWanderDirection:
+                self.mTorretWanderDirection=Math.GenerateRandom2DDirection()
+                
+            if self.mTorret.TurnTo(self.mTorretWanderDirection):
+                self.mTorretWanderDirection=Math.GenerateRandom2DDirection()
+                
+    def TorretAim(self):
+        if self.mStateMachine.mCurrentState==EnemyAttackState.get_instance():
+            direction=glm.normalize((self.mGame.mPlayerTank.mPosition-self.mPosition).xy)
+            #angleDifference = Math.AngleBetweenVectors(-self.mTorret.GetForward().xy, direction)
+            #if not Math.NearZero(angleDifference, 0.01):
+            self.mTorret.TurnTo(direction)
+            # else:
+            #     self.mTorret.mMovementComp.mAngularSpeed=0
+        
     #TODO
     def GenerateWanderPos(self):
         # 生成一个随机的偏移量
@@ -117,7 +147,7 @@ class EnemyTank(Tank):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
             self.mHealth-=25
             self.mSenseComp.mIsSensed=True
-            print('Collide')
+            print('Enemy being hit')
             if self.mHealth<=0:
                 print('Explode')
                 self.mActive=False
@@ -126,3 +156,10 @@ class EnemyTank(Tank):
             OtoS=glm.normalize(instigator.mPosition-self.mPosition)
             OtoS.z=0
             self.mPosition-=2*OtoS
+    
+    def Fire(self):
+        if super().Fire():
+            #print('Enemy fires')
+            return True
+        return False
+        

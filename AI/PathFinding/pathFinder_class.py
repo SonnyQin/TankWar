@@ -28,7 +28,7 @@ class PathFinder:
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
-            if 0 <= nx < len(self.map) and 0 <= ny < len(self.map[0]) and (self.map[nx][ny] == 0 or self.map[nx][ny] == '.' or self.map[nx][ny] == '@' or self.map[nx][ny] == '$'):
+            if 0 <= nx < len(self.map) and 0 <= ny < len(self.map[0]) and (self.map[nx][ny] == 0 or self.map[nx][ny] == '.' or self.map[nx][ny] == '@' or self.map[nx][ny] == '$') and self.map[nx][ny]!='#':
                 neighbors.append((nx, ny))
         return neighbors
 

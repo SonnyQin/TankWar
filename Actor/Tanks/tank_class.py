@@ -4,6 +4,7 @@ from Actor.Tanks.torret_class import Torret
 from Actor.Tanks.chassis_class import Chassis
 from Projectile.cannonball_class import Cannonball
 from Component.collisionComponent_class import CollisionComponent
+import math
 import Math
 import Paras
 import glm
@@ -51,9 +52,7 @@ class Tank(Actor):
         
     def Fire(self):
         if self.mCoolDownTime<Paras.CoolDownTime:
-            return
+            return False
         self.mCoolDownTime=0
         Cannonball(self)
-        #Call enemy sense
-        for enemy in self.mGame.mEnemies:
-            enemy.mSenseComp.CallAural(self)
+        return True

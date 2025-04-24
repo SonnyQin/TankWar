@@ -18,6 +18,7 @@ EnemyWanderRad=2000
 EnemySight=1500
 EnemyPOV=math.radians(135)
 EnemyHearingRad=1000
+EnemyChasingDistance=200
 
 #EnemyEasy
 

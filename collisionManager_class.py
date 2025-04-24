@@ -11,6 +11,11 @@ class CollisionManager:
             for projectile in projectils:
                 if enemy.mActive and projectile.mActive:
                     enemy.mCollisionComp.CheckCollision(projectile.mCollisionComp)
+        
+        #Check Player and cannonball
+        for projectile in projectils:
+            if self.mGame.mPlayerTank.mActive and projectile.mActive:
+                self.mGame.mPlayerTank.mCollisionComp.CheckCollision(projectile.mCollisionComp)
                     
         #Check cannonball and wall
         for obstacle in obstacles:

@@ -1,6 +1,7 @@
 from AI.StateMachine.States.state_class import State
 import glm
 import Math
+import Paras
 
 class EnemyGlobalState(State):
     def __init__(self):
@@ -9,7 +10,8 @@ class EnemyGlobalState(State):
         super().Enter(owner)
     def Execute(self, owner):
         super().Execute(owner)
-        
+        if owner.mSenseComp.mIsSensed and owner.mStateMachine.mCurrentState!=EnemyAttackState.get_instance():
+            owner.mStateMachine.ChangeState(EnemyAttackState.get_instance())
     def Exit(self, owner):
         super().Exit(owner)
 
@@ -28,7 +30,7 @@ class EnemyDefaultState(State):
         super().Enter(owner)
     def Execute(self, owner):
         super().Execute(owner)
-        #owner.mStateMachine.ChangeState(EnemyAttendState.get_instance())
+        owner.mStateMachine.ChangeState(EnemyWanderState.get_instance())
     def Exit(self, owner):
         super().Exit(owner)
 
@@ -58,11 +60,14 @@ class EnemyWanderState(State):
             wanderPos=owner.GenerateWanderPos()
             print(wanderPos)
             owner.mNavigationComp.mPathFinder.Reset()
+            owner.mSteeringBehaviors.mTargetPos=None
             owner.mNavigationComp.InitPath(wanderPos)
             
     def Exit(self, owner):
         super().Exit(owner)
         owner.mSteeringBehaviors.SeekOff()
+        owner.mNavigationComp.Inactivate()
+        owner.mSteeringBehaviors.mTargetPos=None
 
     @staticmethod
     def get_instance():
@@ -84,6 +89,8 @@ class EnemyAttendState(State):
     def Exit(self, owner):
         super().Exit(owner)
         owner.mSteeringBehaviors.SeekOff()
+        owner.mNavigationComp.Inactivate()
+        owner.mSteeringBehaviors.mTargetPos=None
     @staticmethod
     def get_instance():
         if EnemyAttendState._Instance is None:
@@ -91,21 +98,40 @@ class EnemyAttendState(State):
         return EnemyAttendState._Instance
     _Instance = None
     
+
+#Just save time
+#The most accurate method here is to test whether the enemy is able to get
+#to a position with the existance of obstacles
+#Here just seek to player pos minus a certain amount distance
 class EnemyAttackState(State):
     def __init__(self):
             super().__init__()
     def Enter(self, owner):
         super().Enter(owner)
-        #owner.mSteeringBehaviors.WanderOn()
         owner.mSteeringBehaviors.SeekOn()
-        #owner.mSteeringBehaviors.PursuitOn()
+        print('I love fire')
+        playerToEnemy=glm.normalize((owner.mPosition-owner.mGame.mPlayerTank.mPosition).xy)
+        desirePosition=playerToEnemy*Paras.EnemyChasingDistance+owner.mGame.mPlayerTank.mPosition.xy
+        owner.mNavigationComp.InitPath(desirePosition)
+        
     def Execute(self, owner):
         super().Execute(owner)
+        if owner.mSenseComp.See(owner.mGame.mPlayerTank):
+            owner.Fire()
+
+        #If already attend the wanderpos, generate a new one
+        if owner.mNavigationComp.mIsOnTarget or owner.mNavigationComp.mPathFinder.mUnableToAttend:
+            print('Go to New Pos')
+            playerToEnemy=glm.normalize((owner.mPosition-owner.mGame.mPlayerTank.mPosition).xy)
+            desirePosition=playerToEnemy*Paras.EnemyChasingDistance+owner.mGame.mPlayerTank.mPosition.xy
+            owner.mNavigationComp.mPathFinder.Reset()
+            owner.mSteeringBehaviors.mTargetPos=None
+            owner.mNavigationComp.InitPath(desirePosition)
     def Exit(self, owner):
         super().Exit(owner)
-        #owner.mSteeringBehaviors.WanderOff()
         owner.mSteeringBehaviors.SeekOff()
-        #owner.mSteeringBehaviors.PursuitOff()
+        owner.mSteeringBehaviors.mTargetPos=None
+        owner.mNavigationComp.Inactivate()
 
     @staticmethod
     def get_instance():

@@ -14,20 +14,27 @@ class NavigationComponent(Component):
         self.mTargetPos=None
         self.mIsFindingPath=False
         self.mIsOnTarget=False
+        self.mIsActive=False
     
     def InitPath(self, targetPos):
         self.mPathProcedure=None
         self.mTargetPos=targetPos
         self.mIsFindingPath=True
         self.mIsOnTarget=False
+        self.mIsActive=True
         startLoc=GameMap.GetMapLocation(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
         goalLoc=GameMap.GetMapLocation(self.mTargetPos.x, self.mTargetPos.y)
         self.mPathFinder.StartFindPath(startLoc,goalLoc)
         print(self.mOwner.mGame.mGameMap.mMap)
         print('Start calculate path', startLoc, goalLoc)
+    
+    def Inactivate(self):
+        self.mIsActive=False
         
     
     def Update(self, deltatime):
+        if not self.mIsActive:
+            return
         super().Update(deltatime)
         
         #If currently is finding the path, currently one step for each frame

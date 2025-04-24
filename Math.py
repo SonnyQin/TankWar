@@ -1,4 +1,5 @@
 import math
+import random
 import glm
 
 def transform_vector(v, q):
@@ -19,7 +20,7 @@ def simple_ortho(window_width, window_height):
     # 创建一个正交投影矩阵
     return glm.ortho(0.0, window_width, 0.0, window_height, -1.0, 1.0)
 
-def NearZero(num, rate=0.001):
+def NearZero(num, rate=0.008):
     if glm.abs(num)< rate:
         return True
     return False
@@ -201,3 +202,6 @@ def AngleBetweenVectors(v1, v2):
     angle = math.acos(cos_angle)  # 返回角度，单位为弧度
     
     return angle
+
+def GenerateRandom2DDirection():
+    return glm.normalize(glm.vec2(2*(random.random()-0.5), 2*(random.random()-0.5)))

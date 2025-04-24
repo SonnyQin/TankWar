@@ -39,4 +39,6 @@ class Cannonball(Actor):
             self.mActive=False
     
     def onCollide(self, instigator):
-        self.mActive=False
+        if instigator!=self.mInstigator:
+            self.mActive=False
+            #print('collide')
