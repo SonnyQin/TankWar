@@ -12,6 +12,7 @@ from Actor.Tanks.playerTank_class import PlayerTank
 from collisionManager_class import CollisionManager
 from mapGenerator_class import MapGenerator
 from gameMap_class import GameMap
+from Lights.directionalLight_class import DirectionalLight
 import glm
 import Paras
 
@@ -20,6 +21,7 @@ class Game:
         self.mActors = []
         self.mIsRunning = True
         self.mRenderer=Renderer(self, Paras.WINDOWWIDTH, Paras.WINDOWHEIGHT)
+        self.mDirectionalLight=None
         self.mCameras=[]
         # self.mCameraActor=RawCamera(self)
         # self.mCameraActor.mPosition.z=20
@@ -58,10 +60,15 @@ class Game:
         self.mGameMap=GameMap(mp)
         self.ConstructMap(mp)
         
-        self.mSkyBox=SkyDome(self)
-        self.mSkyBox.mPosition=self.mGameMap.GetCenter()
-        scale=max(self.mGameMap.GetMapWidth(), self.mGameMap.GetMapHeight())
-        self.mSkyBox.mScale=1.3*scale
+        # self.mSkyBox=SkyDome(self)
+        # self.mSkyBox.mPosition=self.mGameMap.GetCenter()
+        # scale=max(self.mGameMap.GetMapWidth(), self.mGameMap.GetMapHeight())
+        # self.mSkyBox.mScale=1.3*scale
+        self.mDirectionalLight=DirectionalLight(self)
+        self.mDirectionalLight.mPosition=self.mGameMap.GetCenter()+glm.vec3(0,0,100)
+        self.mDirectionalLight.mDiffuseColor=glm.vec3(100,0,0)
+        self.mDirectionalLight.mSpecColor=glm.vec3(0,100,0)
+        self.mDirectionalLight.mDirection=glm.vec3(0,0,-1)
 
     def Loop(self):
         while self.mIsRunning:

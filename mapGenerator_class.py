@@ -6,7 +6,7 @@ class MapGenerator:
         pass
 
     # 随机生成地图
-    def generate_map(width, height, enemyNum=5, obstacle_probability=0.3):
+    def generate_map(width, height, enemyNum=5, obstacle_probability=0.0):
         # 初始化一个空地图
         game_map = [[' ' for _ in range(width)] for _ in range(height)]
         

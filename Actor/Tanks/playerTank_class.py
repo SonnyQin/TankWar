@@ -51,6 +51,11 @@ class PlayerTank(Tank):
         if(keyState[pygame.K_SPACE]):
             self.Fire()
             
+        if(keyState[pygame.K_o]):
+            self.mPosition+=glm.vec3(0,0,1)
+        if(keyState[pygame.K_l]):
+            self.mPosition+=glm.vec3(0,0,-1)
+            
     def onCollide(self, instigator):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
             self.mHealth-=25
