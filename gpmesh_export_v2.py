@@ -38,6 +38,7 @@ def generate_gpmesh_json():
         "shader": "BasicMesh",
         "textures": [],
         "specularPower": 100.0,
+        "metallic":0.78,
         "vertices": [],
         "indices": []
     }
@@ -278,7 +279,7 @@ class ExportGPMESH(Operator, ExportHelper):
     filter_glob: StringProperty(
         default="*.gpmesh",
         options={'HIDDEN'},
-        maxlen=255,  # Max internal buffer length, longer would be clamped.
+        maxlen=5000,  # Max internal buffer length, longer would be clamped.
     )
 
     # List of operator properties, the attributes will be assigned

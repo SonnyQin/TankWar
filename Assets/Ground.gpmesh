@@ -5,8 +5,8 @@
   "textures": [
     "Assets/Ground.webp"
   ],
-  "specularPower": 100.0,
-  "metallic":0.78,
+  "specularPower": 4.0,
+  "metallic":0.7,
   "vertices": [
     [
       -10,

@@ -66,13 +66,16 @@ class Game:
         scale=max(self.mGameMap.GetMapWidth(), self.mGameMap.GetMapHeight())
         self.mSkyBox.mScale=1.3*scale
         
-        self.mAmbientLight=glm.vec3(0.1,0.1,0.1)
+        self.mAmbientLight=glm.vec3(0,0,0)
         
         self.mDirectionalLight=DirectionalLight(self)
         self.mDirectionalLight.mPosition=self.mGameMap.GetCenter()+glm.vec3(0,0,10000)
-        self.mDirectionalLight.mDiffuseColor=glm.vec3(3.2,3.2,3.2)
-        self.mDirectionalLight.mSpecColor=glm.vec3(3.2,3.2,3.2)
-        self.mDirectionalLight.mDirection = glm.vec3(0.5, -1.0, -1.0)
+        self.mDirectionalLight.mDiffuseColor = glm.vec3(2.5, 2.2, 3.0)  # 更深的紫色
+        self.mDirectionalLight.mSpecColor = glm.vec3(2.5, 2.3, 2.8)    # 更深的紫色高光
+
+
+
+        self.mDirectionalLight.mDirection = glm.vec3(0.5, -1.0, -1)
 
     def Loop(self):
         while self.mIsRunning:

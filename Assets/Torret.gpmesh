@@ -5,7 +5,7 @@
   "textures": [
     "Assets/true.png"
   ],
-  "specularPower": 60.0,
+  "specularPower": 20.0,
   "metallic":0.78,
   "vertices": [
     [
