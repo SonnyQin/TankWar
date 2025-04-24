@@ -19,6 +19,7 @@ class PlayerTank(Tank):
         
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
+        self.CheckBoundary()
         
     def ActorInput(self, keyState):
         super().ActorInput(keyState)
@@ -61,6 +62,16 @@ class PlayerTank(Tank):
             OtoS=glm.normalize(instigator.mPosition-self.mPosition)
             OtoS.z=0
             self.mPosition-=2*OtoS
+    
+    def CheckBoundary(self):
+        if self.mPosition.x < 0:
+            self.mPosition.x=0
+        if self.mPosition.x> self.mGame.mGameMap.GetMapWidth():
+            self.mPosition.x=self.mGame.mGameMap.GetMapWidth()
+        if self.mPosition.y < 0:
+            self.mPosition.y=0
+        if self.mPosition.y> self.mGame.mGameMap.GetMapHeight():
+            self.mPosition.y=self.mGame.mGameMap.GetMapHeight()
             
     def Fire(self):
         if super().Fire():

@@ -1,8 +1,7 @@
 import pygame
 from renderer_class import Renderer
-from Actor.Camera.cameraActor_class import CameraActor
-from Actor.Camera.rawCamera_class import RawCamera
-from Actor.Camera.freeCamera_class import FreeCamera
+from Actor.skyBox_class import SkyBox
+from Actor.skyDome_class import SkyDome
 from Actor.cubeActor_class import CubeActor
 from Actor.Obstacles.block_class import Block
 from Actor.healthbar_class import  HealthBar
@@ -55,9 +54,14 @@ class Game:
         #CubeActor(self)
         # EnemyTank(self)
         #PlaneActor(self)
-        mp=MapGenerator.generate_map(10,10,5)
+        mp=MapGenerator.generate_map(3,3,0)
         self.mGameMap=GameMap(mp)
         self.ConstructMap(mp)
+        
+        self.mSkyBox=SkyDome(self)
+        self.mSkyBox.mPosition=self.mGameMap.GetCenter()
+        scale=max(self.mGameMap.GetMapWidth(), self.mGameMap.GetMapHeight())
+        self.mSkyBox.mScale=1.3*scale
 
     def Loop(self):
         while self.mIsRunning:
