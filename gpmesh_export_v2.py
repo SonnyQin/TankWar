@@ -35,7 +35,7 @@ def generate_gpmesh_json():
     gpmesh = {
         "version": 1,
         "vertexformat": "PosNormSkinTex",
-        "shader": "BasicMesh",
+        "shader": "MetallicBlinnPhongShader",
         "textures": [],
         "specularPower": 100.0,
         "metallic":0.78,

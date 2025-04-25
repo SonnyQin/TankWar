@@ -10,6 +10,6 @@ class Chassis(Actor):
     def __init__(self, owner):
         game=owner.mGame
         super().__init__(game)
-        self.mScale=10
+        self.mScale=1.5
         self.mMeshComp=MeshComponent(self)
-        self.mMeshComp.mMesh=game.mRenderer.GetMesh('Assets/Chassis.gpmesh')
+        self.mMeshComp.mMesh=game.mRenderer.GetMesh('Assets/FancyChassisxxxx.gpmesh')

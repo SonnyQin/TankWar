@@ -70,8 +70,9 @@ class Game:
         
         self.mDirectionalLight=DirectionalLight(self)
         self.mDirectionalLight.mPosition=self.mGameMap.GetCenter()+glm.vec3(0,0,10000)
-        self.mDirectionalLight.mDiffuseColor = glm.vec3(2.5, 2.2, 3.0)  # 更深的紫色
-        self.mDirectionalLight.mSpecColor = glm.vec3(2.5, 2.3, 2.8)    # 更深的紫色高光
+        self.mDirectionalLight.mDiffuseColor = glm.vec3(3.0, 1.9, 3.5)  # 粉紫偏蓝，比较柔
+        self.mDirectionalLight.mSpecColor   = glm.vec3(3.2, 2.0, 3.8)
+
 
 
 
