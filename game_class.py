@@ -61,8 +61,8 @@ class Game:
         #CubeActor(self)
         # EnemyTank(self)
         #PlaneActor(self)
-        mp=MapGenerator.generate_map(4,4,5)
-        self.mEnemyCount=10
+        mp=MapGenerator.generate_map(5,5,5)
+        self.mEnemyCount=5
         self.mGameMap=GameMap(mp)
         self.ConstructMap(mp)
         
@@ -71,7 +71,7 @@ class Game:
         scale=max(self.mGameMap.GetMapWidth(), self.mGameMap.GetMapHeight())
         self.mSkyBox.mScale=1.3*scale
         
-        self.mAmbientLight=glm.vec3(0,0,0)
+        self.mAmbientLight=glm.vec3(0.01,0.01,0.01)
         
         self.mDirectionalLight=DirectionalLight(self)
         self.mDirectionalLight.mPosition=self.mGameMap.GetCenter()+glm.vec3(0,0,10000)

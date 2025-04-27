@@ -147,6 +147,7 @@ class EnemyDeadState(State):
         super().Enter(owner)
         if not owner.mActive:
             return
+        owner.mGame.mEnemyCount-=1
         print('Notice All enemy to Attack the Player')
         owner.mActive=False
         enemies=owner.mGame.mEnemies

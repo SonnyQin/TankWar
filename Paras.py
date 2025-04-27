@@ -4,6 +4,8 @@ FPS=60
 WINDOWWIDTH = 1000
 WINDOWHEIGHT = 700
 
+RecoverTime=3
+
 blockLength=1000
 
 CannonballRadius=5

@@ -3,9 +3,9 @@
   "vertexformat": "PosNormSkinTex",
   "shader": "MetallicBlinnPhongShader",
   "textures": [
-    "Assets/Ground.webp"
+    "Assets/FancyGround.jpg"
   ],
-  "specularPower": 4.0,
+  "specularPower": 24.0,
   "metallic":0.7,
   "vertices": [
     [

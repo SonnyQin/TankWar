@@ -3,6 +3,7 @@ from Actor.Camera.followCamera_class import FollowCamera
 from Component.collisionComponent_class import CollisionComponent
 from Actor.cubeActor_class import CubeActor
 import Math
+import Paras
 import math
 import pygame
 import glm
@@ -19,9 +20,13 @@ class PlayerTank(Tank):
         self.mPreviousMoving=False
         self.mIsMoving=False
         
+        self.mRecoverTime=0
+        
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
         self.CheckBoundary()
+        
+        self.Recover(deltatime)
         
         # speed=abs(self.mMovementComp.mForwardSpeed)
         # if speed>0:
@@ -44,9 +49,9 @@ class PlayerTank(Tank):
         angularSpeed=0
         
         if(keyState[pygame.K_w]):
-            forwardSpeed+=100
+            forwardSpeed+=150
         if(keyState[pygame.K_s]):
-            forwardSpeed-=100
+            forwardSpeed-=150
         if(keyState[pygame.K_a]):
             angularSpeed-=0.3*math.pi
         if(keyState[pygame.K_d]):
@@ -72,11 +77,21 @@ class PlayerTank(Tank):
         #     self.mPosition+=glm.vec3(0,0,1)
         # if(keyState[pygame.K_l]):
         #     self.mPosition+=glm.vec3(0,0,-1)
+        
+    def Recover(self, deltaTime):
+        self.mRecoverTime+=deltaTime
+        if self.mRecoverTime>Paras.RecoverTime:
+            self.mRecoverTime=Paras.RecoverTime
+        if self.mRecoverTime<Paras.RecoverTime:
+            return False
+        self.mRecoverTime=0
+        if self.mHealth<100:
+            self.mHealth+=1
             
     def onCollide(self, instigator):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
-            self.mHealth-=0
-            print('I am being hit')
+            self.mHealth-=7
+            #print('I am being hit')
             self.mExpodeSound.play()
             if self.mHealth<=0:
                 print('Game Over')
@@ -84,7 +99,7 @@ class PlayerTank(Tank):
         if instigator.mType=='Enemy' or instigator.mType=='Obstacle':
             OtoS=glm.normalize(instigator.mPosition-self.mPosition)
             OtoS.z=0
-            self.mPosition-=2*OtoS
+            self.mPosition-=4*OtoS
     
     def CheckBoundary(self):
         if self.mPosition.x < 0:

@@ -147,7 +147,7 @@ class EnemyTank(Tank):
     
     def onCollide(self, instigator):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
-            self.mHealth-=25
+            self.mHealth-=34
             self.mSenseComp.mIsSensed=True
             print('Enemy being hit')
             # self.mExpodeSound.play()
@@ -155,7 +155,6 @@ class EnemyTank(Tank):
                 print('Explode')
                 self.mStateMachine.ChangeState(EnemyDeadState.get_instance())
                 self.mGame.mScore+=10
-                self.mGame.mEnemyCount-=1
                 
         if instigator.mType=='Player' or instigator.mType=='Obstacle':
             OtoS=glm.normalize(instigator.mPosition-self.mPosition)
@@ -164,7 +163,7 @@ class EnemyTank(Tank):
             
     def CheckBoundary(self):
         if self.mPosition.x<0 or self.mPosition.x>self.mGame.mGameMap.GetMapWidth() or self.mPosition.y<0 or self.mPosition.y> self.mGame.mGameMap.GetMapHeight():
-            self.mActive=False
+            self.mStateMachine.ChangeState(EnemyDeadState.get_instance())
     
     def Fire(self):
         if super().Fire():

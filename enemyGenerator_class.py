@@ -21,5 +21,6 @@ class EnemyGenerator:
                     etank=EnemyTank(self.mGame)
                     x,y=GameMap.GetWorldLocation(px, py)
                     etank.mPosition=glm.vec3(x,y, 15)
-                    print("Generate a new enemy")
+                    self.mGame.mEnemyCount+=1
+                    print("Generate a new enemy "+str(self.mGame.mEnemyCount))
                     break

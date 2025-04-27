@@ -1,6 +1,7 @@
 from Component.component_class import Component
 from gameMap_class import GameMap
 from AI.PathFinding.pathFinder_class import PathFinder, PathProcedure
+from AI.StateMachine.States.enemyStates import EnemyDeadState
 import glm
 
 
@@ -53,6 +54,7 @@ class NavigationComponent(Component):
                 self.mTargetPos=None
                 self.mIsFindingPath=False
                 self.mIsOnTarget=False
+                self.mOwner.mStateMachine.ChangeState(EnemyDeadState.get_instance())
                 return
         
         #If currently not finding the path and the path has already found

@@ -62,6 +62,8 @@ class Renderer:
         # debug_window = pygame.display.set_mode((800, 600))
         # pygame.display.set_caption("Pathfinding Debug")
         
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH | GLUT_MULTISAMPLE)
+        
         return True
 
     def LoadShaders(self):
@@ -196,6 +198,9 @@ class Renderer:
         render_text('Score: ' +str(self.mGame.mScore), (75, 500))  # 渲染文本到屏幕上
         #Draw health
         render_text('Health: '+str(self.mGame.mPlayerTank.mHealth), (475,500))
+        
+        if not self.mGame.mPlayerTank.mActive:
+            render_text('Game Over', (290,350))
         
         pygame.display.flip()
     
