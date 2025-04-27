@@ -75,7 +75,6 @@ class NavigationComponent(Component):
                     if self.mPathProcedure.NextNode():
                         #Reset target to the next node
                         self.mOwner.mSteeringBehaviors.mTargetPos=self.mPathProcedure.GetCurrentNode()
-                        print(' ')
                     else:
                         #Finished
                         self.mIsOnTarget=True
