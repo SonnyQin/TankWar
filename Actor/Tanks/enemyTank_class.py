@@ -55,6 +55,8 @@ class EnemyTank(Tank):
         #     self.mMovementComp.mForwardSpeed=0
         #     self.mMovementComp.mAngularSpeed=0
         
+        self.CheckBoundary()
+        
     def TurnTo(self, direction):
         currentDirection = -self.GetForward().xy
         # 计算叉积
@@ -148,14 +150,21 @@ class EnemyTank(Tank):
             self.mHealth-=25
             self.mSenseComp.mIsSensed=True
             print('Enemy being hit')
+            # self.mExpodeSound.play()
             if self.mHealth<=0:
                 print('Explode')
-                self.mActive=False
+                self.mStateMachine.ChangeState(EnemyDeadState.get_instance())
+                self.mGame.mScore+=10
+                self.mGame.mEnemyCount-=1
                 
         if instigator.mType=='Player' or instigator.mType=='Obstacle':
             OtoS=glm.normalize(instigator.mPosition-self.mPosition)
             OtoS.z=0
             self.mPosition-=2*OtoS
+            
+    def CheckBoundary(self):
+        if self.mPosition.x<0 or self.mPosition.x>self.mGame.mGameMap.GetMapWidth() or self.mPosition.y<0 or self.mPosition.y> self.mGame.mGameMap.GetMapHeight():
+            self.mActive=False
     
     def Fire(self):
         if super().Fire():

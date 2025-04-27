@@ -25,8 +25,8 @@ class NavigationComponent(Component):
         startLoc=GameMap.GetMapLocation(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
         goalLoc=GameMap.GetMapLocation(self.mTargetPos.x, self.mTargetPos.y)
         self.mPathFinder.StartFindPath(startLoc,goalLoc)
-        print(self.mOwner.mGame.mGameMap.mMap)
-        print('Start calculate path', startLoc, goalLoc)
+        #print(self.mOwner.mGame.mGameMap.mMap)
+        #print('Start calculate path', startLoc, goalLoc)
     
     def Inactivate(self):
         self.mIsActive=False
@@ -39,14 +39,14 @@ class NavigationComponent(Component):
         
         #If currently is finding the path, currently one step for each frame
         if self.mIsFindingPath:
-            print('Calculating path')
+            #print('Calculating path')
             r=self.mPathFinder.FindPathStep()
             if r:
-                print('Path calculated')
+                #print('Path calculated')
                 self.mIsFindingPath=False
                 self.mPathProcedure=PathProcedure(PathFinder.IndexToPosition(r,self.mTargetPos))
                 #print(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
-                print(self.mPathProcedure.mPath)
+                #print(self.mPathProcedure.mPath)
             #Unable to get to the position
             if r==False:
                 self.mPathProcedure=None
@@ -68,7 +68,7 @@ class NavigationComponent(Component):
                 if glm.length(self.mOwner.mPosition.xy - currentNode) < 10:
                     self.mOwner.mMovementComp.mAngularSpeed=0
                     self.mOwner.mMovementComp.mForwardSpeed=0
-                    print('Attend a Node')
+                    #print('Attend a Node')
                     #Check whether finish the path
                     if self.mPathProcedure.NextNode():
                         #Reset target to the next node
@@ -78,4 +78,4 @@ class NavigationComponent(Component):
                         #Finished
                         self.mIsOnTarget=True
                         self.mOwner.mSteeringBehaviors.mTargetPos=None
-                        print('On Target')
+                        #print('On Target')

@@ -4,6 +4,7 @@ from Actor.Tanks.torret_class import Torret
 from Actor.Tanks.chassis_class import Chassis
 from Projectile.cannonball_class import Cannonball
 from Component.collisionComponent_class import CollisionComponent
+from soundLoader_class import SoundLoader
 import math
 import Math
 import Paras
@@ -28,6 +29,12 @@ class Tank(Actor):
         self.mCoolDownTime=Paras.CoolDownTime
         
         self.mHealth=100
+        
+        soundLoader=SoundLoader()
+        
+        self.mFireSound=soundLoader.load_sound('Assets/Sounds/Fire.mp3')
+        self.mMoveSound=soundLoader.load_sound('Assets/Sounds/Move_sound.wav')
+        self.mExpodeSound=soundLoader.load_sound('Assets/Sounds/Explosion.mp3')
         
     def Update(self, deltatime):
         super().Update(deltatime)

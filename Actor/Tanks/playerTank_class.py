@@ -14,12 +14,29 @@ class PlayerTank(Tank):
         self.mFollowCamera.mActive=True
         self.mCollisionComp.mOnCollide=self.onCollide
         self.mType='Player'
-        # self.mCube=CubeActor(game)
-        # self.mCube.mScale=65
+        
+        #For sound
+        self.mPreviousMoving=False
+        self.mIsMoving=False
         
     def UpdateActor(self, deltatime):
         super().UpdateActor(deltatime)
         self.CheckBoundary()
+        
+        # speed=abs(self.mMovementComp.mForwardSpeed)
+        # if speed>0:
+        #     self.mPreviousMoving=self.mIsMoving
+        #     self.mIsMoving=True
+        # else:
+        #     self.mPreviousMoving=self.mIsMoving
+        #     self.mIsMoving=False
+            
+        # if (not self.mPreviousMoving and self.mIsMoving):
+        #     self.mMoveSound.play(loops=-1)
+        
+        # if (self.mPreviousMoving and not self.mIsMoving):
+        #     self.mMoveSound.stop()
+        
         
     def ActorInput(self, keyState):
         super().ActorInput(keyState)
@@ -51,15 +68,16 @@ class PlayerTank(Tank):
         if(keyState[pygame.K_SPACE]):
             self.Fire()
             
-        if(keyState[pygame.K_o]):
-            self.mPosition+=glm.vec3(0,0,1)
-        if(keyState[pygame.K_l]):
-            self.mPosition+=glm.vec3(0,0,-1)
+        # if(keyState[pygame.K_o]):
+        #     self.mPosition+=glm.vec3(0,0,1)
+        # if(keyState[pygame.K_l]):
+        #     self.mPosition+=glm.vec3(0,0,-1)
             
     def onCollide(self, instigator):
         if instigator.mType=='Cannonball' and instigator.mInstigator!=self:
-            #self.mHealth-=25
+            self.mHealth-=0
             print('I am being hit')
+            self.mExpodeSound.play()
             if self.mHealth<=0:
                 print('Game Over')
                 self.mActive=False
@@ -80,6 +98,7 @@ class PlayerTank(Tank):
             
     def Fire(self):
         if super().Fire():
+            self.mFireSound.play()
             #Call enemy sense
             for enemy in self.mGame.mEnemies:
                 enemy.mSenseComp.CallAural(self)

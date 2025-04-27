@@ -6,13 +6,13 @@ from Actor.cubeActor_class import CubeActor
 from Actor.Obstacles.block_class import Block
 from Actor.healthbar_class import  HealthBar
 from Actor.planeActor_class import PlaneActor
-from Actor.Tanks.tank_class import Tank
 from Actor.Tanks.enemyTank_class import EnemyTank
 from Actor.Tanks.playerTank_class import PlayerTank
 from collisionManager_class import CollisionManager
 from mapGenerator_class import MapGenerator
 from gameMap_class import GameMap
 from Lights.directionalLight_class import DirectionalLight
+from enemyGenerator_class import EnemyGenerator
 import glm
 import Paras
 
@@ -30,6 +30,10 @@ class Game:
         # self.mFreeCamera=FreeCamera(self)
         
         self.mPlayerTank=None
+        
+        self.mScore=0
+        self.mEnemyCount=0
+        self.mEnemyGenerator=EnemyGenerator(self)
         
         #self.mPlaneActor=PlaneActor(self)
         
@@ -57,7 +61,8 @@ class Game:
         #CubeActor(self)
         # EnemyTank(self)
         #PlaneActor(self)
-        mp=MapGenerator.generate_map(3,3,0)
+        mp=MapGenerator.generate_map(4,4,5)
+        self.mEnemyCount=10
         self.mGameMap=GameMap(mp)
         self.ConstructMap(mp)
         
@@ -72,9 +77,6 @@ class Game:
         self.mDirectionalLight.mPosition=self.mGameMap.GetCenter()+glm.vec3(0,0,10000)
         self.mDirectionalLight.mDiffuseColor = glm.vec3(3.0, 1.9, 3.5)  # 粉紫偏蓝，比较柔
         self.mDirectionalLight.mSpecColor   = glm.vec3(3.2, 2.0, 3.8)
-
-
-
 
         self.mDirectionalLight.mDirection = glm.vec3(0.5, -1.0, -1)
 
@@ -118,6 +120,9 @@ class Game:
     
     def Update(self):
         deltatime = self.FPSClock.get_time() / 1000.0
+
+        self.mEnemyGenerator.GenerateNewEnemy()
+        
         for actor in self.mActors:
             if actor.mActive:
                 actor.Update(deltatime)

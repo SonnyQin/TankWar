@@ -1,3 +1,4 @@
+from mazeGenerator_class import MazeGenerator
 import random
 
 
@@ -6,14 +7,15 @@ class MapGenerator:
         pass
 
     # 随机生成地图
-    def generate_map(width, height, enemyNum=5, obstacle_probability=0.3):
-        # 初始化一个空地图
-        game_map = [[' ' for _ in range(width)] for _ in range(height)]
+    def generate_map(width, height, enemyNum=5):
+        game_map = MazeGenerator.instance().creat_map(width, height)
+        #print(game_map)
         
-        for y in range(height):
-            for x in range(width):
-                # 随机决定是否放置障碍物
-                if random.random() < obstacle_probability:
+
+        
+        for y in range(len(game_map)):
+            for x in range(len(game_map[0])):
+                if game_map[y][x]:
                     game_map[y][x] = '#'
                 else:
                     game_map[y][x] = '.'
@@ -24,9 +26,12 @@ class MapGenerator:
             game_map[px][py]='@'
             
         #Add Player
-        px=random.randint(0, width-1)
-        py=random.randint(0, height-1)
-        game_map[px][py]='$'
+        while True:
+            px=random.randint(0, width-1)
+            py=random.randint(0, height-1)
+            if game_map[px][py]=='.':
+                game_map[px][py]='$'
+                break
 
         return game_map
 
@@ -34,5 +39,4 @@ class MapGenerator:
     def print_map(game_map):
         for row in game_map:
             print(' '.join(row))
-
         

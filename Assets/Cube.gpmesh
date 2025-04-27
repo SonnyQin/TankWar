@@ -3,7 +3,7 @@
 	"vertexformat":"PosNormTex",
 	"shader":"MetallicBlinnPhongShader",
 	"textures":[
-		"Assets/Ground.jpg"
+		"Assets/Fancy.jpg"
 	],
 	"specularPower":100.0,
 	"metallic":0.3,

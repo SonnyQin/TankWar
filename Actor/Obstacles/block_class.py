@@ -10,9 +10,9 @@ class Block(Actor):
     def __init__(self, game):
         super().__init__(game)
         self.mMeshComponent=MeshComponent(self)
-        self.mMeshComponent.mMesh=game.mRenderer.GetMesh('Assets/Cube.gpmesh')
+        self.mMeshComponent.mMesh=game.mRenderer.GetMesh('Assets/Block.gpmesh')
         self.mCollisionComp=CollisionComponent(self, Math.BoxCollider(self.mPosition, glm.vec3(500,500,500)), self.onCollide)
-        self.mScale=1000
+        self.mScale=500
         self.mGame.mObstacles.append(self)
         self.mType='Obstacle'
     def ActorInput(self, keyState):

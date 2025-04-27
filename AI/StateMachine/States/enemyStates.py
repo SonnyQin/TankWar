@@ -10,7 +10,7 @@ class EnemyGlobalState(State):
         super().Enter(owner)
     def Execute(self, owner):
         super().Execute(owner)
-        if owner.mSenseComp.mIsSensed and owner.mStateMachine.mCurrentState!=EnemyAttackState.get_instance():
+        if owner.mSenseComp.mIsSensed and owner.mStateMachine.mCurrentState!=EnemyAttackState.get_instance() and owner.mStateMachine.mCurrentState!=EnemyDeadState.get_instance():
             owner.mStateMachine.ChangeState(EnemyAttackState.get_instance())
     def Exit(self, owner):
         super().Exit(owner)
@@ -109,7 +109,7 @@ class EnemyAttackState(State):
     def Enter(self, owner):
         super().Enter(owner)
         owner.mSteeringBehaviors.SeekOn()
-        print('I love fire')
+        #print('I love fire')
         playerToEnemy=glm.normalize((owner.mPosition-owner.mGame.mPlayerTank.mPosition).xy)
         desirePosition=playerToEnemy*Paras.EnemyChasingDistance+owner.mGame.mPlayerTank.mPosition.xy
         owner.mNavigationComp.InitPath(desirePosition)
@@ -121,7 +121,7 @@ class EnemyAttackState(State):
 
         #If already attend the wanderpos, generate a new one
         if owner.mNavigationComp.mIsOnTarget or owner.mNavigationComp.mPathFinder.mUnableToAttend:
-            print('Go to New Pos')
+            #print('Go to New Pos')
             playerToEnemy=glm.normalize((owner.mPosition-owner.mGame.mPlayerTank.mPosition).xy)
             desirePosition=playerToEnemy*Paras.EnemyChasingDistance+owner.mGame.mPlayerTank.mPosition.xy
             owner.mNavigationComp.mPathFinder.Reset()
@@ -145,10 +145,14 @@ class EnemyDeadState(State):
             super().__init__()
     def Enter(self, owner):
         super().Enter(owner)
-        self.mActive=False
+        if not owner.mActive:
+            return
+        print('Notice All enemy to Attack the Player')
+        owner.mActive=False
         enemies=owner.mGame.mEnemies
         for enemy in enemies:
-            enemy.mStateMachine.ChangeState(EnemyAttendState.get_instance())
+            if enemy.mActive and enemy.mStateMachine.mCurrentState!=EnemyDeadState.get_instance():
+                enemy.mStateMachine.ChangeState(EnemyAttendState.get_instance())
     def Execute(self, owner):
         super().Execute(owner)
     def Exit(self, owner):
