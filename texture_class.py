@@ -1,7 +1,11 @@
 from OpenGL.GL import *
 from OpenGL.GLUT import *
+from OpenGL.GLU import *
+import pygame
 from PIL import Image
 import numpy as np
+
+GL_TEXTURE_MAX_ANISOTROPY_EXT = 0x84FE
 
 class Texture:
     def __init__(self):
@@ -28,33 +32,27 @@ class Texture:
         self.mTextureID=glGenTextures(1)
         glBindTexture(GL_TEXTURE_2D, self.mTextureID)
         
+        glEnable(GL_MULTISAMPLE)
         # 上传纹理数据
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self.mWidth, self.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data)
 
         # 设置纹理参数（线性过滤）
         # glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
         # glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-        
-        # # 设置纹理过滤方式
-        # glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
-        # glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
         # # 生成 Mipmap
         # glGenerateMipmap(GL_TEXTURE_2D)
         
         # 线性 Mipmap + 各向异性过滤
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)  # 适合近距离和远距离
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)  # 放大时使用线性过滤
-
-
+        # glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)  # 适合近距离和远距离
+        # glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)  # 放大时使用线性过滤
         # 生成 Mipmap（如果没有生成）
+        #glGenerateMipmap(GL_TEXTURE_2D)
+        
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)  # 使用 Mipmap 的线性渐进过滤
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)  # 使用线性过滤
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 16)
         glGenerateMipmap(GL_TEXTURE_2D)
-
-
-        
-        
-        glEnable(GL_MULTISAMPLE)
-
 
         return True
 

@@ -42,14 +42,17 @@ class Renderer:
         pygame.init()
 
         # Set up the OpenGL context attributes
-        pygame.display.set_mode((self.mScreenWidth, self.mScreenHeight), pygame.DOUBLEBUF | pygame.OPENGL)
-        
+        # 设置 32 位深度缓冲区以获得更高的精度
+        pygame.display.set_mode((self.mScreenWidth, self.mScreenHeight), 
+                                pygame.DOUBLEBUF | pygame.OPENGL, 
+                                depth=32)  # 使用 32 位深度缓冲区
+
         pygame.display.gl_set_attribute(pygame.GL_SWAP_CONTROL, 1)  # 启用 V-Sync
 
         # Set OpenGL viewport size
         glViewport(0, 0, self.mScreenWidth, self.mScreenHeight)
 
-        # Initialize shaders (assuming we have a function `load_shaders` for this)
+        # Initialize shaders (assuming we have a function load_shaders for this)
         if not self.LoadShaders():
             print("Failed to load shaders.")
             return False
@@ -59,12 +62,43 @@ class Renderer:
         glEnable(GL_BLEND)  # 开启混合
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)  # 混合模式
         
-        # debug_window = pygame.display.set_mode((800, 600))
-        # pygame.display.set_caption("Pathfinding Debug")
+        # 启用多重采样抗锯齿
+        glEnable(GL_MULTISAMPLE)  
         
+        # 启用深度测试（确保深度缓冲启用）
+        glEnable(GL_DEPTH_TEST)  # 启用深度测试
+        glDepthFunc(GL_LEQUAL)  # 深度函数选择，适合大多数情况
+        
+        # 设置深度缓冲的最大值（默认是1.0）
+        glClearDepth(1.0)  # 设置最大深度值为1.0
+        
+        # 使用浮动深度缓冲区（可以提升精度）
+        glEnable(GL_DEPTH_TEST)
+
+        # 减小近远裁剪面的差距以提高深度精度
+        glDepthRange(0.01, 1.0)  # 近裁剪面设为0.01，远裁剪面设为1.0
+        
+        # 设置近远裁剪面（确保深度缓冲区使用尽可能精细的分布）
+        glFrustum(-1, 1, -1, 1, 0.1, 1000.0)  # 近裁剪面0.1，远裁剪面1000.0
+        
+        # 确保每次清理深度缓冲
+        glClear(GL_DEPTH_BUFFER_BIT)  # 清除深度缓冲区
+
+        # 启用多重采样抗锯齿
+        glEnable(GL_MULTISAMPLE)
+
+        # 调整其他参数以优化精度
+        # 你可以根据需要继续优化以下其他设置
+        # glClearColor(0.0, 0.0, 0.0, 1.0)  # 背景颜色
+        # glEnable(GL_CULL_FACE)  # 启用面剔除
+
+        # 调整 OpenGL 的视景体（确保没有过度拉伸）
+        # 使用透视投影矩阵时，适当调整视场角和裁剪面来平衡深度精度
+
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH | GLUT_MULTISAMPLE)
         
         return True
+
 
     def LoadShaders(self):
         self.mSpriteShader=Shader()
