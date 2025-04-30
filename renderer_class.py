@@ -249,6 +249,7 @@ class Renderer:
 
 
 
+#Generate by ChatGPT
 # 渲染文本的函数
 def render_text(text, position):
     font = pygame.font.Font('Assets/Corna/Corna/Corna-2.otf', 36)  # 创建一个字体对象，字号为36

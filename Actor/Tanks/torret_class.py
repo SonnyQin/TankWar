@@ -17,6 +17,7 @@ class Torret(Actor):
         self.mMeshComp.mMesh=game.mRenderer.GetMesh('Assets/FancyTorretXX.gpmesh')
         self.mMovementComp=MovementComponent(self)
         
+    #Generate by ChatGPT
     def TurnTo(self, direction):
         currentDirection = self.GetForward().xy
         # 计算叉积

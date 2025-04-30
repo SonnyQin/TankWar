@@ -41,6 +41,7 @@ class Actor:
         self.mComponents.remove(c)
         self.mComponents.sort(key=lambda c: c.mUpdateOrder)
         
+    #Generate by ChatGPT
     def ComputeWorldTransform(self):
         # 1. 使用 glm 的缩放矩阵
         scale_matrix = glm.scale(glm.mat4(1.0), glm.vec3(self.mScale, self.mScale, self.mScale))  # 确保缩放是通过 glm.scale 来进行的
@@ -58,6 +59,7 @@ class Actor:
     def GetForward(self):
         return Math.transform_vector(vec3(1,0,0), glm.quat(self.mRotation))
     
+    #Generate by ChatGPT
     def GetRight(self):
         # 从当前旋转获取右向量
         rot = glm.quat(self.mRotation)  # 获取当前物体的旋转（四元数表示）

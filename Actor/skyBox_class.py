@@ -4,6 +4,9 @@ import pygame
 import Math
 import glm
 
+#Inspired by ChatGPT
+#Unused
+
 class SkyBox(Actor):
     def __init__(self, game):
         super().__init__(game)

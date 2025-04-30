@@ -44,9 +44,12 @@ class SenseComponent(Component):
     
     #The target of this function is to test whether the enemy is able to shoot at the player tank
     #Therefore, no need to use sub steps test for the FOV
+    #Inspired by ChatGPT
     def See(self, player):
         obstacles=self.mOwner.mGame.mObstacles
         for obstacle in obstacles:
-            if obstacle.mCollisionComp.mCollider.CheckCollisionWithRay(self.mOwner.mPosition, glm.normalize(player.mPosition-self.mOwner.mPosition), glm.length(player.mPosition-self.mOwner.mPosition)):
+            if obstacle.mCollisionComp.mCollider.CheckCollisionWithRay(
+                self.mOwner.mPosition, glm.normalize(player.mPosition-self.mOwner.mPosition),
+                glm.length(player.mPosition-self.mOwner.mPosition)):
                 return False
         return True

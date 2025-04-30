@@ -57,6 +57,7 @@ class EnemyTank(Tank):
         
         self.CheckBoundary()
         
+    #Generate by ChatGPT
     def TurnTo(self, direction):
         currentDirection = -self.GetForward().xy
         # 计算叉积
@@ -84,19 +85,6 @@ class EnemyTank(Tank):
         # print(totalForce)
         
         expectDirection = glm.normalize(acceleration)
-        
-        # 获取当前角色的朝向（假设你有一个GetForward()方法返回当前的方向向量）
-        #currentDirection = self.GetForward().xy
-
-        # # 判断是否需要转向
-        # angleDifference = Math.AngleBetweenVectors(currentDirection, expectDirection)
-        #print(angleDifference)
-
-        # # 如果角度差异超过阈值，则执行转向
-        # if not Math.NearZero(angleDifference, 0.01):
-            # self.TurnTo(expectDirection)
-            # # 如果需要转向，则直接返回，不进行位置更新
-            # return
             
         if not self.TurnTo(expectDirection):
             return
@@ -123,6 +111,7 @@ class EnemyTank(Tank):
             #     self.mTorret.mMovementComp.mAngularSpeed=0
         
     #TODO
+    #Generate by ChatGPT
     def GenerateWanderPos(self):
         # 生成一个随机的偏移量
         rd = glm.vec2(random.random(), random.random())  # 生成 [0, 1) 范围内的随机数

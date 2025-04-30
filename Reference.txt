@@ -1,0 +1,28 @@
+The game structure is inspired by Game Programming in C++: Creating 3D Games, 
+including the use of Opengl,
+
+The AI enemy is inspired by Programming Game AI by Example, including the use of 
+statemachine, steeringBehaviors, A* Algorithm for path finding
+
+Some help is provided by ChatGPT, such as the calculations of crossproucts, the use of glm for math calculations, and
+some help for refining the render
+
+The Maze Generator is built by https://blog.csdn.net/weixin_41604051/article/details/106363284
+
+
+Models are all built by me, using blender, and exporters from Game Programming in C++: Creating 3D Games
+
+
+
+Resource Reference:
+
+Font https://www.fonts.net.cn/font-39332348341.html
+
+Sky Texture https://www.aigei.com/item/ue4_xu_huan_5_m_33.html
+
+Ground Texture https://www.aigei.com/s?q=%E7%A7%91%E5%B9%BB&dim=3d_material_1&page=2#resContainer
+
+Tank and Block Texture https://www.aigei.com/item/kb3d_sf_tech_me.html
+
+Cannonball Texture https://www.aigei.com/item/zuo_jiu_hua_hen_2.html
+

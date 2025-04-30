@@ -3,6 +3,9 @@ import math
 import random
 import Paras
 
+#Inspired by Programming Game AI by Example
+#Only use the seek method
+
 class BehaviorTypes:
     none = 0x0000
     seek = 0x0002
@@ -32,7 +35,6 @@ class SteeringBehaviors:
         return desired_velocity - desire_direction*self.mOwner.mMovementComp.mForwardSpeed
 
     def Pursuit(self, evader):
-        # 转换 mOwner.mPosition 和 evader.mPosition 为 vec2
         owner_pos_2d = glm.vec2(self.mOwner.mPosition.x, self.mOwner.mPosition.y)
         evader_pos_2d = glm.vec2(evader.mPosition.x, evader.mPosition.y)
 

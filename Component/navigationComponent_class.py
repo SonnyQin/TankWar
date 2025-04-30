@@ -4,6 +4,7 @@ from AI.PathFinding.pathFinder_class import PathFinder, PathProcedure
 from AI.StateMachine.States.enemyStates import EnemyDeadState
 import glm
 
+#Inspired by Programming Game AI by Example
 
 #Use for AI to go to the target position
 #Remember to set Owner's steering behavior on, including seek, pursuit, etc, to  make movement

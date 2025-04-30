@@ -1,5 +1,6 @@
 import pygame
 
+#Generate by ChatGPT
 class SoundLoader:
     _instance = None
     

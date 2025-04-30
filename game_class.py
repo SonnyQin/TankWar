@@ -57,11 +57,8 @@ class Game:
         self.LoadData()
         
     def LoadData(self):
-        #self.mPlayerTank=PlayerTank(self)
-        #CubeActor(self)
-        # EnemyTank(self)
-        #PlaneActor(self)
-        mp=MapGenerator.generate_map(5,5,5)
+    
+        mp=MapGenerator.generate_map(3,3,3)
         self.mEnemyCount=5
         self.mGameMap=GameMap(mp)
         self.ConstructMap(mp)
@@ -75,7 +72,7 @@ class Game:
         
         self.mDirectionalLight=DirectionalLight(self)
         self.mDirectionalLight.mPosition=self.mGameMap.GetCenter()+glm.vec3(0,0,10000)
-        self.mDirectionalLight.mDiffuseColor = glm.vec3(3.0, 1.9, 3.5)  # 粉紫偏蓝，比较柔
+        self.mDirectionalLight.mDiffuseColor = glm.vec3(3.0, 1.9, 3.5)
         self.mDirectionalLight.mSpecColor   = glm.vec3(3.2, 2.0, 3.8)
 
         self.mDirectionalLight.mDirection = glm.vec3(0.5, -1.0, -1)
@@ -128,6 +125,7 @@ class Game:
                 actor.Update(deltatime)
                 
         self.mCollisionManager.CheckCollision()
+        
             
         self.FPSClock.tick(Paras.FPS)
         
@@ -150,11 +148,9 @@ class Game:
         py=500
         for x in range(width):
             for y in range(height):
-                #Construct Plane
                 pa=PlaneActor(self)
                 pa.mPosition=glm.vec3(px, py, 0)
                 
-                #Construct enemy
                 if map[x][y]=='@':
                     from AI.StateMachine.States.enemyStates import EnemyWanderState
                     from AI.StateMachine.States.enemyStates import EnemyAttendState
@@ -162,7 +158,6 @@ class Game:
                     ea=EnemyTank(self)
                     ea.mPosition=glm.vec3(px+100, py+100, 15)
                     ea.mStateMachine.ChangeState(EnemyDefaultState.get_instance())
-                #Construct Obstacles
                 if map[x][y]=='#':
                     oe=Block(self)
                     oe.mPosition=glm.vec3(px, py, 50)

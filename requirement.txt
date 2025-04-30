@@ -1,0 +1,5 @@
+pyglm
+pygame
+pyopengl
+PIL
+numpy

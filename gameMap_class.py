@@ -15,7 +15,6 @@ class GameMap:
         return int(row-1), int(column-1)
     
     def GetWorldLocation(row, column):
-        # 计算世界坐标，假设每个格子的大小是1000单位
         x = row * 1000+500
         y = column * 1000+500
         return x, y

@@ -4,6 +4,8 @@ from OpenGL.GLU import *
 
 import glm
 
+#Inspired by Game Programming in C++: Creating 3D Games
+
 class Shader:
     def __init__(self):
         self.shader_program = None

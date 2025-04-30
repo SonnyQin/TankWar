@@ -7,12 +7,15 @@ import numpy as np
 
 GL_TEXTURE_MAX_ANISOTROPY_EXT = 0x84FE
 
+#Inspired by Game Programming in C++: Creating 3D Games
+
 class Texture:
     def __init__(self):
         self.mTextureID =0
         self.mWidth = 0
         self.mHeight = 0
 
+    #Generate by ChatGPT, with help to improve the texture quality
     def Load(self, file_name):
         # 使用PIL加载图片
         try:
@@ -57,9 +60,7 @@ class Texture:
         return True
 
     def Unload(self):
-        # 删除纹理
         glDeleteTextures(1, [self.mTextureID])
 
     def SetActive(self):
-        # 绑定纹理
         glBindTexture(GL_TEXTURE_2D, self.mTextureID)

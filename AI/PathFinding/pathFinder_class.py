@@ -2,9 +2,11 @@ from gameMap_class import GameMap
 import glm
 import heapq
 
+#Generate by ChatGPT and change and restructured by me
 # TODO
 # Consider all paths to adjacent nodes have the same length
 # May be optimized through checking whether attainable between two nodes, if true, deleting the nodes between them
+
 class PathFinder:
     def __init__(self, map):
         self.start = None

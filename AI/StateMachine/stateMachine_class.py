@@ -1,3 +1,4 @@
+#Inspired by Programming Game AI by Example
 class StateMachine:
     def __init__(self, owner):
         self.pOwner = owner

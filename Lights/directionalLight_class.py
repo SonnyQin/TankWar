@@ -2,6 +2,7 @@ from Actor.actor_class import Actor
 from Component.meshComponent_class import MeshComponent
 
 
+#Inspired by ChatGPT
 class DirectionalLight(Actor):
     def __init__(self, game):
         super().__init__(game)

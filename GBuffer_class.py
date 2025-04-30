@@ -3,6 +3,8 @@ from OpenGL.GL import shaders
 import numpy as np
 from texture_class import Texture
 
+#Unuse 
+#Generate by ChatGPT
 class GBuffer:
     def __init__(self):
         self.bufferID = 0

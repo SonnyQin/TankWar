@@ -1,3 +1,6 @@
+//Edit under Game Programming in C++ by Sanjay Madhav
+//Inspired from ChaGPT to implment Metallic effect
+
 // Request GLSL 3.3
 #version 330
 

@@ -3,6 +3,8 @@ import glm
 import math
 import pygame
 
+#Generate by ChatPGT for debugging
+
 class FreeCamera(CameraActor):
     def __init__(self, game):
         super().__init__(game)

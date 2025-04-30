@@ -3,6 +3,8 @@ import os
 from vertexArray_class import VertexArray
 import glm
 
+#Inspired by Game Programming in C++: Creating 3D Games
+
 class Mesh:
     def __init__(self):
         self.mSpecPower=0
@@ -13,7 +15,6 @@ class Mesh:
         
         
     def Load(self, fileName, renderer):
-            # 读取文件
         if not os.path.exists(fileName):
             print(f"File not found: Mesh {fileName}")
             return False
@@ -27,7 +28,6 @@ class Mesh:
             print(f"Mesh {fileName} is not valid JSON")
             return False
 
-        # 检查版本
         ver = doc.get("version", None)
         if ver != 1:
             print(f"Mesh {fileName} not version 1")
@@ -36,7 +36,6 @@ class Mesh:
         shaderName = doc.get("shader", "")
         self.mShader=renderer.GetShader(shaderName)
 
-        # 加载纹理
         textures = doc.get("textures", [])
         if not textures:
             print(f"Mesh {fileName} has no textures, there should be at least one")
@@ -51,7 +50,6 @@ class Mesh:
                 tex = renderer.GetTexture("Assets/Default.png")
             self.mTextures.append(tex)
 
-        # 加载顶点数据
         verts_json = doc.get("vertices", [])
         if not verts_json:
             print(f"Mesh {fileName} has no vertices")
@@ -71,7 +69,6 @@ class Mesh:
         
         # self.radius = sqrt(self.radius)
 
-        # 加载索引数据
         ind_json = doc.get("indices", [])
         if not ind_json:
             print(f"Mesh {fileName} has no indices")
@@ -84,6 +81,5 @@ class Mesh:
                 return False
             indices.extend(ind)
 
-        # 创建顶点数组
         self.mVertexArray = VertexArray(vertices, len(vertices) // 8, indices, len(indices))
         return True

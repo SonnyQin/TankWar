@@ -6,13 +6,10 @@ class MapGenerator:
     def __init__(self):
         pass
 
-    # 随机生成地图
     def generate_map(width, height, enemyNum=5):
         game_map = MazeGenerator.instance().creat_map(width, height)
         #print(game_map)
-        
 
-        
         for y in range(len(game_map)):
             for x in range(len(game_map[0])):
                 if game_map[y][x]:
@@ -34,9 +31,3 @@ class MapGenerator:
                 break
 
         return game_map
-
-    # 打印地图
-    def print_map(game_map):
-        for row in game_map:
-            print(' '.join(row))
-        

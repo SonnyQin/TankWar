@@ -1,3 +1,4 @@
+#Inspired by Programming Game AI by Example
 class State:
     def __init__(self):
         pass

@@ -3,6 +3,8 @@ import glm
 import Math
 import Paras
 
+#Inspired by Programming Game AI by Example
+
 class EnemyGlobalState(State):
     def __init__(self):
         super().__init__()

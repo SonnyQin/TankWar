@@ -4,6 +4,8 @@ import pygame
 import Math
 import glm
 
+
+#Inspired by ChatGPT
 class SkyDome(Actor):
     def __init__(self, game):
         super().__init__(game)
